@@ -1,9 +1,9 @@
-import {createError, mongooseErrors} from "../server/errors/errors";
-import {TransactionService} from "../service/transaction.service";
-import {TransactionTokenService} from "../service/transaction-token.service";
-import User from "../db/user.model";
-import Transaction from "../db/transaction.model";
-import TransactionToken from "../db/transaction-token.model";
+import {createError, mongooseErrors} from "../errors/errors";
+import {TransactionService} from "../services/transaction.service";
+import {TransactionTokenService} from "../services/transaction-token.service";
+import User from "../../db/user.model";
+import Transaction from "../../db/transaction.model";
+import TransactionToken from "../../db/transaction-token.model";
 
 export class TransactionTokenController {
 
@@ -21,7 +21,7 @@ export class TransactionTokenController {
             }
 
             if (!transaction.service) {
-                return createError('CouldNotFindService', 'Could not find transaction service for given code', 404);
+                return createError('CouldNotFindService', 'Could not find transaction services for given code', 404);
             }
 
             const transactionToken: TransactionToken = await TransactionTokenService.createTransactionToken(transaction, user);

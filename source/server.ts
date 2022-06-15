@@ -3,9 +3,9 @@ import express, {Express} from "express";
 import bodyParser from "body-parser";
 import methodOverride from "method-override";
 import {cors} from "./middleware/cors";
-import {Authentication} from "./server/authentication/authentication";
+import {Authentication} from "./server/enpoints/authentication/authentication";
 import sequelize from "./db/setup/db-mysql-setup";
-import {TransactionTokenEndpoints} from "./server/transaction-token/transaction-token-endpoints";
+import {TransactionTokenEndpoints} from "./server/enpoints/transaction-token/transaction-token-endpoints";
 
 
 const env = process.env.NODE_ENV;

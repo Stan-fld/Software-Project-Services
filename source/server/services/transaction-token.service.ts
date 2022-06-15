@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import TransactionToken from "../db/transaction-token.model";
-import Transaction from "../db/transaction.model";
-import User from "../db/user.model";
+import TransactionToken from "../../db/transaction-token.model";
+import Transaction from "../../db/transaction.model";
+import User from "../../db/user.model";
 
 export class TransactionTokenService extends TransactionToken {
 

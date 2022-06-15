@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../db/user.model";
+import User from "../../db/user.model";
 
 export class UserService {
 
@@ -25,6 +25,6 @@ export class UserService {
     }
 
     static findWithAccessToken(userId: string, accessToken: string) {
-        return User.findOne({where: {accessToken: accessToken, id: userId}});
+        return User.findOne({where: {accessToken: accessToken, id: userId}, include: ['role']});
     }
 }

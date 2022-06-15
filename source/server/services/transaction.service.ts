@@ -1,4 +1,4 @@
-import Transaction from "../db/transaction.model";
+import Transaction from "../../db/transaction.model";
 
 
 export class TransactionService extends Transaction {
