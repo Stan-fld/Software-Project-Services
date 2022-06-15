@@ -1,6 +1,6 @@
 import {ObjectId} from "mongodb";
 import request from 'supertest';
-import app from "../../server";
+import app from "../../../server";
 import {
     PopulateRestaurants,
     PopulateRoles,
@@ -8,8 +8,8 @@ import {
     PopulateTransactionTokens,
     SeedRestaurants,
     SeedTransactionTokens
-} from "../seed-data";
-import {Restaurant} from "../../db/user.model";
+} from "../../seed-data";
+import {Restaurant} from "../../../db/user.model";
 
 describe('POST /restaurant/register', () => {
 

@@ -1,14 +1,12 @@
 import {Express} from "express";
-import {createError, mongooseErrors} from "../errors/errors";
-import {bodyPick} from "../../middleware/utils";
-import {authenticateUser} from "../../middleware/authenticate";
+import {authenticateUser} from "../../../middleware/authenticate";
 
 export class Authentication {
     static signUp(app: Express) {
 
         app.post('/restau/register', authenticateUser, (req: any, res) => {
 
-            const body = bodyPick(['firstName', 'lastName', 'email', 'address', 'phone', 'password'], req.body);
+            //const body = bodyPick(['firstName', 'lastName', 'email', 'address', 'phone', 'password'], req.body);
 
         });
     }
@@ -17,6 +15,7 @@ export class Authentication {
 
         app.post('/restau/login', authenticateUser, (req, res) => {
 
+            /*
             const body = bodyPick(['email', 'password'], req.body);
 
 
@@ -40,6 +39,8 @@ export class Authentication {
                 return res.status(401).send(mongooseErrors(e));
 
             });
+
+             */
         });
     }
 }

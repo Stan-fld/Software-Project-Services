@@ -1,6 +1,6 @@
 import {authenticationFailed, mongooseErrors} from "../server/errors/errors";
 import jwt from "jsonwebtoken";
-import {UserService} from "../service/user.service";
+import {UserService} from "../server/services/user.service";
 import User from "../db/user.model";
 
 export async function authenticateUser(req: any, res: any, next: any) {

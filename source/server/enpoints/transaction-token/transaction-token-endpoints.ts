@@ -1,6 +1,6 @@
 import {Express} from "express";
-import {authenticateUser} from "../../middleware/authenticate";
-import {TransactionTokenController} from "../../controller/transaction-token.controller";
+import {authenticateUser} from "../../../middleware/authenticate";
+import {TransactionTokenController} from "../../controllers/transaction-token.controller";
 
 export class TransactionTokenEndpoints {
 

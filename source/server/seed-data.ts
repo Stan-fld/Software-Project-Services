@@ -36,11 +36,11 @@ export const SeedRoles = [{
 }, {
     id: roleSixId.toString(),
     name: roles.commServ,
-    desc: 'Commercial service'
+    desc: 'Commercial services'
 }, {
     id: roleSevenId.toString(),
     name: roles.techServ,
-    desc: 'Technical service'
+    desc: 'Technical services'
 },
 ]
 

@@ -1,4 +1,4 @@
-import {createError} from "../server/errors/errors";
+import {createError} from "../errors/errors";
 
 export class UserController {
 
