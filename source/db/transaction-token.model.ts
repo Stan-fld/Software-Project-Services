@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import {createError, mongooseErrors} from "../server/errors/errors";
+import {createError, sequelizeErrors} from "../server/errors/errors";
 import sequelize from "./setup/db-mysql-setup";
 import {DataTypes, Model} from "sequelize";
 import Role from "./role.model";
@@ -45,12 +45,12 @@ class TransactionToken extends Model {
                     return {transaction, transactionToken, role};
 
                 }).catch((e) => {
-                    return Promise.reject(mongooseErrors(e))
+                    return Promise.reject(sequelizeErrors(e))
                 });
             })
 
         }).catch((e) => {
-            return Promise.reject(mongooseErrors(e))
+            return Promise.reject(sequelizeErrors(e))
         })
 
     }

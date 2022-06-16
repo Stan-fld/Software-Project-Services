@@ -7,7 +7,7 @@ import _ from "lodash";
  * @param {string[]} dataToPick
  * @param {any} data
  */
-export function bodyPick(dataToPick: string[], data: any) {
+export function bodyPick(dataToPick: string[], data: any): any {
     /** create once the defaults object with undefined values from the headerKeys **/
     const defaultObj = _(dataToPick)
         .mapKeys()

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../../db/user.model";
+import bcrypt from "bcrypt";
 
 export class UserService {
 
@@ -9,7 +10,10 @@ export class UserService {
         this.user = user;
     }
 
-    createAuthToken() {
+    /**
+     * Create a new auth token for the user
+     */
+    createAuthToken(): Promise<User> {
 
         this.user.accessToken = jwt.sign({
             _id: this.user.id.toString(),
@@ -24,7 +28,15 @@ export class UserService {
         return this.user.save();
     }
 
-    static findWithAccessToken(userId: string, accessToken: string) {
+    static findWithAccessToken(userId: string, accessToken: string): Promise<User> {
         return User.findOne({where: {accessToken: accessToken, id: userId}, include: ['role']});
+    }
+
+    static findWithEmail(email: string): Promise<User> {
+        return User.findOne({where: {email: email}, include: ['role']});
+    }
+
+    static comparePassword(user: User, password: string) {
+        return bcrypt.compare(password, user.password);
     }
 }

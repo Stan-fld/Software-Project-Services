@@ -21,7 +21,6 @@
     "@types/lodash": "^4.14.178",
     "@types/method-override": "^0.0.32",
     "@types/morgan": "^1.9.3",
-    "@types/validator": "^13.7.0",
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19",
@@ -38,7 +37,7 @@
     "sequelize": "^6.20.1",
     "sequelize-cli": "^6.4.1",
     "ts-node": "^10.4.0",
-    "validator": "^13.7.0"
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/jest": "^27.0.3",

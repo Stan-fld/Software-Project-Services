@@ -1,4 +1,3 @@
-import validator from "validator";
 import bcrypt from 'bcrypt';
 import {bodyPick} from "../middleware/utils";
 import sequelize from "./setup/db-mysql-setup";
@@ -7,7 +6,7 @@ import Role from "./role.model";
 
 
 const config = {
-    tableName: 'TransactionTokens',
+    tableName: 'Users',
     timestamps: true,
     sequelize: sequelize
 };
@@ -22,12 +21,12 @@ class User extends Model {
     password!: string;
     roleId!: string;
     role: Role;
-    accessToken!: string;
-    refreshToken!: string;
+    accessToken: string;
+    refreshToken: string;
 
     toJSON() {
 
-        return bodyPick(['id', 'firstName', 'lastName', 'email','address', 'phone', 'roleId', 'createdAt', 'updatedAt'], this);
+        return bodyPick(['id', 'firstName', 'lastName', 'email', 'address', 'phone', 'role', 'createdAt', 'updatedAt'], this);
 
     }
 }
@@ -72,10 +71,9 @@ User.init({
         allowNull: false,
         unique: true,
         validate: {
-            validator: (value: string) => {
-                return validator.isEmail(value);
-            },
-            message: '{VALUE} is not a valid email'
+            isEmail: {
+                msg: 'Email must be a valid email address'
+            }
         }
     },
     address: {
@@ -118,7 +116,7 @@ User.init({
     }
 }, config);
 
-Role.hasMany(User, {as: 'users'});
+Role.hasMany(User, {foreignKey: 'roleId', as: 'users'});
 User.belongsTo(Role, {foreignKey: 'roleId', as: 'role'});
 
 User.beforeSave((user: User) => {

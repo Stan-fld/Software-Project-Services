@@ -5,7 +5,7 @@
     "MYSQL_URI": "mysql-projetcesi.alwaysdata.net",
     "MYSQL_DB_NAME": "projetcesi_authentication_db",
     "MYSQL_DB_USER": "271246",
-    "MYSQL_DB_PASS": "CesiProject2022",
+    "MYSQL_DB_PASS": "azertyuio12345678",
     "JWT_SECRET": "TheSecretJWt"
   },
   "development": {
@@ -16,7 +16,7 @@
     "MYSQL_URI": "mysql-projetcesi.alwaysdata.net",
     "MYSQL_DB_NAME": "projetcesi_authentication_db",
     "MYSQL_DB_USER": "271246",
-    "MYSQL_DB_PASS": "CesiProject2022",
+    "MYSQL_DB_PASS": "azertyuio12345678",
     "JWT_SECRET": "TheSecretJWt"
   }
 }

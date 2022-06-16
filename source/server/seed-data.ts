@@ -3,6 +3,9 @@ import {v4} from 'uuid';
 import sequelize from "../db/setup/db-mysql-setup";
 import Role from "../db/role.model";
 import Transaction from "../db/transaction.model";
+import Service from "../db/service.model";
+import jwt from "jsonwebtoken";
+import User from "../db/user.model";
 
 
 const roleOneId = v4();
@@ -62,28 +65,51 @@ export const PopulateRoles = (done) => {
 }
 
 
+const serviceOneId = v4();
+const serviceTwoId = v4();
+const serviceThreeId = v4();
+const serviceFourId = v4();
+
+export const SeedServices = [{
+    id: serviceOneId.toString(),
+    domain: 'orders'
+}, {
+    id: serviceTwoId.toString(),
+    domain: 'restaurants'
+}, {
+    id: serviceThreeId.toString(),
+    domain: 'users'
+}, {
+    id: serviceFourId.toString(),
+    domain: 'deliveries'
+}];
+
+export const PopulateServices = (done) => {
+
+    sequelize.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then(() => {
+        Service.destroy({truncate: true}).then(() => {
+            // required for pre save middleware
+            const saveMethods = [];
+
+            for (const service of SeedServices) {
+                saveMethods.push((new Service(service)).save());
+            }
+
+            return Promise.all(saveMethods);
+        });
+    }).then(() => done());
+}
+
 const transactionOneId = v4();
-const transactionTwoId = v4();
-const transactionThreeId = v4();
 
 export const SeedTransactions = [{
     id: transactionOneId.toString(),
-    code: 'CR',
+    code: 'UU',
     reqCat: reqCat.post,
-    desc: 'Create restaurant',
-    roleId: SeedRoles[0].id.toString()
-}, {
-    id: transactionTwoId.toString(),
-    code: 'CCL',
-    reqCat: reqCat.post,
-    desc: 'Create client',
-    roleId: SeedRoles[2].id.toString()
-}, {
-    id: transactionThreeId.toString(),
-    code: 'Login',
-    reqCat: reqCat.post,
-    desc: 'Login users',
-    roleId: SeedRoles[1].id.toString()
+    name: 'updateUser',
+    desc: 'Update user',
+    roleId: SeedRoles[2].id.toString(),
+    serviceId: SeedServices[2].id.toString()
 }]
 
 export const PopulateTransactions = (done) => {
@@ -97,6 +123,40 @@ export const PopulateTransactions = (done) => {
         }
 
         return Promise.all(saveMethods);
-    }).then(() => done())
+    }).then(() => done());
+}
 
+const userOneId = v4();
+
+export const SeedUsers = [{
+    id: userOneId.toString(),
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john@example.com',
+    address: '123 Main St',
+    phone: '+33606060606',
+    password: '12345678',
+    roleId: SeedRoles[2].id.toString(),
+    accessToken: jwt.sign({
+        _id: userOneId.toString(),
+        iat: Date.now() / 1000
+    }, process.env.JWT_SECRET!, {expiresIn: '1h'}).toString(),
+    refreshToken: jwt.sign({
+        _id: userOneId.toString(),
+        iat: Date.now() / 1000
+    }, process.env.JWT_SECRET!, {expiresIn: '48h'}).toString()
+}];
+
+export const PopulateUsers = (done) => {
+
+    User.destroy({truncate: true}).then(() => {
+        // required for pre save middleware
+        const saveMethods = [];
+
+        for (const user of SeedUsers) {
+            saveMethods.push((new User(user)).save());
+        }
+
+        return Promise.all(saveMethods);
+    }).then(() => done());
 }

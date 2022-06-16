@@ -1,9 +1,3 @@
-interface IError {
-    name: string;
-    message: string;
-    code: any;
-}
-
 export function createError(name: string, message: string, code: number) {
 
     return {data: {name, message}, code: code};
@@ -16,9 +10,11 @@ export function authenticationFailed(message: string, code: any) {
     return createError('AuthenticationFailed', message, code);
 }
 
-export function mongooseErrors(mongooseError: any) {
-    const errors = mongooseError['errors'];
-    const code = mongooseError['code'];
+export function sequelizeErrors(sequelizeError: any) {
+    console.log(sequelizeError);
+    /*
+    const errors = sequelizeError['errors'];
+    const code = sequelizeError['code'];
 
     if (errors !== null && errors !== undefined) {
 
@@ -37,10 +33,11 @@ export function mongooseErrors(mongooseError: any) {
         return {data: list, code: list[0].code};
     } else if (code !== null && code !== undefined) {
 
-        const errorModel: IError = {name: '', message: mongooseError['errmsg'], code: mongooseError['code'].toString()};
+        const errorModel: IError = {name: '', message: sequelizeError['errmsg'], code: sequelizeError['code'].toString()};
 
         return {data: [errorModel], code: errorModel.code};
     }
+     */
 
-    return {data: 'Mongoose Error', code: 400};
+    return {data: 'Sequelize Error', code: 400};
 }

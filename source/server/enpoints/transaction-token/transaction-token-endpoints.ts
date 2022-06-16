@@ -4,6 +4,10 @@ import {TransactionTokenController} from "../../controllers/transaction-token.co
 
 export class TransactionTokenEndpoints {
 
+    /**
+     * Endpoint for create transaction token
+     * @param app
+     */
     static createTransactionToken(app: Express) {
         app.post('/auth/createTransactionToken', authenticateUser, async (req: any, res) => {
 
@@ -14,8 +18,12 @@ export class TransactionTokenEndpoints {
         });
     }
 
+    /**
+     * Endpoint for delete transaction token
+     * @param app
+     */
     static deleteTransactionToken(app: Express) {
-        app.post('/auth/deleteTransactionToken/:transactionToken', authenticateUser, async (req: any, res) => {
+        app.post('/auth/deleteTransactionToken/:transactionToken', async (req: any, res) => {
 
             const response = await TransactionTokenController.deleteTransactionToken(req.data.transactionToken);
 

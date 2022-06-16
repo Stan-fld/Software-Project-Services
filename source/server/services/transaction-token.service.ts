@@ -5,7 +5,12 @@ import User from "../../db/user.model";
 
 export class TransactionTokenService extends TransactionToken {
 
-    static createTransactionToken(transaction: Transaction, user: User) {
+    /**
+     * Create transaction token for given transaction and user
+     * @param transaction
+     * @param user
+     */
+    static createTransactionToken(transaction: Transaction, user: User): Promise<TransactionToken> {
         const transactionToken = new TransactionToken();
 
         transactionToken.token = jwt.sign({
@@ -19,11 +24,19 @@ export class TransactionTokenService extends TransactionToken {
         return transactionToken.save();
     }
 
-    static findWithToken(token: string) {
+    /**
+     * Get transaction token for given token
+     * @param token
+     */
+    static findWithToken(token: string): Promise<TransactionToken> {
         return TransactionToken.findOne({where: {token: token}});
     }
 
-    static deleteTransactionToken(transactionToken: TransactionToken) {
+    /**
+     * Delete transaction token for given transaction token object
+     * @param transactionToken
+     */
+    static deleteTransactionToken(transactionToken: TransactionToken): Promise<void> {
         return transactionToken.destroy();
     }
 }

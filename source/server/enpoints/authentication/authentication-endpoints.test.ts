@@ -1,22 +1,21 @@
-import {ObjectId} from "mongodb";
 import request from 'supertest';
 import app from "../../../server";
 import {
-    PopulateRestaurants,
     PopulateRoles,
+    PopulateServices,
     PopulateTransactions,
-    PopulateTransactionTokens,
-    SeedRestaurants,
-    SeedTransactionTokens
+    PopulateUsers,
+    SeedRoles,
+    SeedUsers
 } from "../../seed-data";
-import {Restaurant} from "../../../db/user.model";
 
+/*
 describe('POST /restaurant/register', () => {
 
     beforeEach(PopulateRoles);
+    beforeEach(PopulateServices)
     beforeEach(PopulateTransactions);
-    beforeEach(PopulateTransactionTokens);
-    beforeEach(PopulateRestaurants);
+    beforeEach(PopulateUsers);
 
     it('should create restaurant', (done) => {
 
@@ -62,60 +61,41 @@ describe('POST /restaurant/register', () => {
     });
 });
 
+ */
 
-describe('POST /restau/login', () => {
+
+describe('POST /auth/login', () => {
 
     beforeEach(PopulateRoles);
+    beforeEach(PopulateServices);
+    beforeEach(PopulateUsers);
     beforeEach(PopulateTransactions);
-    beforeEach(PopulateTransactionTokens);
-    beforeEach(PopulateRestaurants);
 
-    it('should create and logged restaurant', (done) => {
-
-        const restaurant = {
-            email: 'StanIslasfoilLard@yahoO.com',
-            password: 'azertyui',
-            firstName: 'Stanislas',
-            lastName: 'Foillard'
-        }
-
-        const clientInfo = {
-            client: 'iOS',
-            clientId: new ObjectId().toHexString()
-        }
+    it('should logged user', (done) => {
 
         request(app)
-            .post('/restau/register')
-            .set('trx-auth', SeedTransactionTokens[0].token)
-            .send({restaurant, clientInfo})
-            .expect(201)
+            .post('/auth/login')
+            .send({email: 'john@example.com', password: '12345678'})
             .then((res) => {
 
                 if (res.error) {
                     console.log(res.error);
                 }
 
-                const signupAccessToken = res.body.data.tokens.accessToken;
+                expect(res.body.user.id).toBe(SeedUsers[0].id);
+                expect(res.body.user.email).toBe(SeedUsers[0].email);
+                expect(res.body.user.firstName).toBe(SeedUsers[0].firstName);
+                expect(res.body.user.lastName).toBe(SeedUsers[0].lastName);
+                expect(res.body.user.address).toBe(SeedUsers[0].address);
+                expect(res.body.user.phone).toBe(SeedUsers[0].phone);
+                expect(res.body.user.password).not.toBeDefined();
+                expect(res.body.user.accessToken).not.toBe(SeedUsers[0].accessToken);
+                expect(res.body.user.refreshToken).not.toBe(SeedUsers[0].refreshToken);
+                expect(res.body.user.role.id).toBe(SeedRoles[2].id);
+                expect(res.body.user.role.name).toBe(SeedRoles[2].name);
+                expect(res.body.user.role.desc).toBe(SeedRoles[2].desc);
 
-                request(app)
-                    .post('/restau/login')
-                    .set('trx-auth', SeedTransactionTokens[1].token)
-                    .send({
-                        email: 'StanIslasfoilLard@yahoO.com',
-                        password: 'azertyui',
-                        client: clientInfo.client,
-                        clientId: clientInfo.clientId
-                    })
-                    .then((res) => {
-
-                        if (res.error) {
-                            console.log(res.error);
-                        }
-
-                        expect(signupAccessToken).not.toBe(res.body.data.tokens.accessToken);
-
-                        done();
-                    });
+                done();
             });
     });
 });

@@ -3,7 +3,7 @@ import express, {Express} from "express";
 import bodyParser from "body-parser";
 import methodOverride from "method-override";
 import {cors} from "./middleware/cors";
-import {Authentication} from "./server/enpoints/authentication/authentication";
+import {AuthenticationEndpoints} from "./server/enpoints/authentication/authentication-endpoints";
 import sequelize from "./db/setup/db-mysql-setup";
 import {TransactionTokenEndpoints} from "./server/enpoints/transaction-token/transaction-token-endpoints";
 
@@ -15,8 +15,8 @@ app.use(cors);
 app.use(bodyParser.json());
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-Authentication.signUp(app);
-Authentication.signIn(app);
+AuthenticationEndpoints.signUp(app);
+AuthenticationEndpoints.signIn(app);
 
 TransactionTokenEndpoints.createTransactionToken(app);
 TransactionTokenEndpoints.deleteTransactionToken(app);

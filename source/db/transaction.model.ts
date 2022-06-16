@@ -13,6 +13,7 @@ class Transaction extends Model {
     id!: string;
     code!: string;
     reqCat!: string;
+    name!: string;
     desc!: string;
     roleId!: string;
     role: Role;
@@ -36,16 +37,20 @@ Transaction.init({
         type: DataTypes.ENUM('GET', 'PUT', 'PATCH', 'POST', 'DELETE'),
         allowNull: false,
     },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     desc: {
         type: DataTypes.STRING,
         allowNull: false
     }
 }, config);
 
-Role.hasMany(Transaction, {as: 'transactions'});
+Role.hasMany(Transaction, {foreignKey: 'roleId', as: 'transactions'});
 Transaction.belongsTo(Role, {foreignKey: 'roleId', as: 'role'});
 
-Service.hasMany(Transaction, {as: 'transactions'});
+Service.hasMany(Transaction, {foreignKey: 'serviceId',as: 'transactions'});
 Transaction.belongsTo(Service, {foreignKey: 'serviceId', as: 'service'});
 
 export default Transaction;
