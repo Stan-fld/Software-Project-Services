@@ -26,8 +26,7 @@ describe('POST /auth/register', () => {
             email: 'jOhn@Example.com',
             address: '123 Main St',
             phone: '+33606060606',
-            password: '12345678',
-            roleId: SeedRoles[2].id.toString()
+            password: '12345678'
         };
         request(app)
             .post('/auth/register')
@@ -72,8 +71,7 @@ describe('POST /auth/register', () => {
             email: 'jOhn@Example.com',
             address: '123 Main St',
             phone: '+33606060606',
-            password: '12345678',
-            roleId: SeedRoles[2].id.toString()
+            password: '12345678'
         };
         request(app)
             .post('/auth/register')
