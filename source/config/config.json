@@ -3,7 +3,7 @@
     "PORT": 8000,
     "MONGODB_URI": "mongodb://127.0.0.1:27017/ceseat_db",
     "MYSQL_URI": "mysql-projetcesi.alwaysdata.net",
-    "MYSQL_DB_NAME": "projetcesi_authentication_db",
+    "MYSQL_DB_NAME": "projetcesi_authentication_test_db",
     "MYSQL_DB_USER": "271246",
     "MYSQL_DB_PASS": "azertyuio12345678",
     "JWT_SECRET": "TheSecretJWt"

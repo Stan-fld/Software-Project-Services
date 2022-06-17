@@ -6,7 +6,7 @@ import User from "../../db/user.model";
 export class TransactionTokenService extends TransactionToken {
 
     /**
-     * Create transaction token for given transaction and user
+     * Service to create a transaction token for given transaction and user
      * @param transaction
      * @param user
      */
@@ -25,7 +25,7 @@ export class TransactionTokenService extends TransactionToken {
     }
 
     /**
-     * Get transaction token for given token
+     * Service to find a transaction token for given token
      * @param token
      */
     static findWithToken(token: string): Promise<TransactionToken> {
@@ -33,7 +33,7 @@ export class TransactionTokenService extends TransactionToken {
     }
 
     /**
-     * Delete transaction token for given transaction token object
+     * Service to delete a transaction token for given transaction token object
      * @param transactionToken
      */
     static deleteTransactionToken(transactionToken: TransactionToken): Promise<void> {

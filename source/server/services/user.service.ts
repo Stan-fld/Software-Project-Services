@@ -4,39 +4,48 @@ import bcrypt from "bcrypt";
 
 export class UserService {
 
-    user: User;
-
-    constructor(user: User) {
-        this.user = user;
-    }
-
     /**
-     * Create a new auth token for the user
+     * Service to create a new auth token for the user
+     * @param user
      */
-    createAuthToken(): Promise<User> {
+    static createAuthToken(user: User): Promise<User> {
 
-        this.user.accessToken = jwt.sign({
-            _id: this.user.id.toString(),
+        user.accessToken = jwt.sign({
+            _id: user.id.toString(),
             iat: Date.now() / 1000
         }, process.env.JWT_SECRET!, {expiresIn: '1h'}).toString();
 
-        this.user.refreshToken = jwt.sign({
-            _id: this.user.id.toString(),
+        user.refreshToken = jwt.sign({
+            _id: user.id.toString(),
             iat: Date.now() / 1000
         }, process.env.JWT_SECRET!, {expiresIn: '48h'}).toString();
 
-        return this.user.save();
+        return user.save();
     }
 
+    /**
+     * Service to find a user with access token
+     * @param userId
+     * @param accessToken
+     */
     static findWithAccessToken(userId: string, accessToken: string): Promise<User> {
         return User.findOne({where: {accessToken: accessToken, id: userId}, include: ['role']});
     }
 
+    /**
+     * Service to find a user with refresh email
+     * @param email
+     */
     static findWithEmail(email: string): Promise<User> {
         return User.findOne({where: {email: email}, include: ['role']});
     }
 
-    static comparePassword(user: User, password: string) {
+    /**
+     * Service to compare a password with user password
+     * @param user
+     * @param password
+     */
+    static comparePassword(user: User, password: string): Promise<boolean> {
         return bcrypt.compare(password, user.password);
     }
 }

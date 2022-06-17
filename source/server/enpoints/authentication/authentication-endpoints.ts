@@ -10,9 +10,13 @@ export class AuthenticationEndpoints {
      */
     static signUp(app: Express) {
 
-        app.post('/auth/register', (req: any, res) => {
+        app.post('/auth/register', async (req: any, res) => {
 
-            //const body = bodyPick(['firstName', 'lastName', 'email', 'address', 'phone', 'password'], req.body);
+            const body = bodyPick(['firstName', 'lastName', 'email', 'address', 'phone', 'password', 'roleId'], req.body);
+
+            const response = await AuthenticationController.createUser(body);
+
+            res.status(response.code).send(response.data);
 
         });
     }

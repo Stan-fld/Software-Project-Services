@@ -15,7 +15,7 @@ export class TransactionTokenController {
     static async createTransactionToken(transactionCode: string, user: User) {
 
         try {
-            const transaction: Transaction = await TransactionService.getTransactionByCodeAndUserRole(transactionCode, user);
+            const transaction: Transaction = await TransactionService.findWithCodeAndUserRole(transactionCode, user);
 
             if (!transaction) {
                 return createError('CouldNotFindTransaction', 'Could not find transaction for given code', 404);

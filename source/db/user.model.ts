@@ -26,7 +26,7 @@ class User extends Model {
 
     toJSON() {
 
-        return bodyPick(['id', 'firstName', 'lastName', 'email', 'address', 'phone', 'role', 'createdAt', 'updatedAt'], this);
+        return bodyPick(['id', 'firstName', 'lastName', 'email', 'address', 'phone', 'role', 'accessToken', 'createdAt', 'updatedAt'], this);
 
     }
 }

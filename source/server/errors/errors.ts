@@ -11,10 +11,7 @@ export function authenticationFailed(message: string, code: any) {
 }
 
 export function sequelizeErrors(sequelizeError: any) {
-    console.log(sequelizeError);
-    /*
     const errors = sequelizeError['errors'];
-    const code = sequelizeError['code'];
 
     if (errors !== null && errors !== undefined) {
 
@@ -22,22 +19,18 @@ export function sequelizeErrors(sequelizeError: any) {
 
         for (let key in errors) {
             if (errors.hasOwnProperty(key)) {
-                const name = errors[key].name;
-                const message = errors[key].message;
-                const code = errors[key].code;
-                const error: IError = {name, message, code};
+                let message = errors[key].message.split('.');
+
+                const name = 'SequelizeError ' + errors[key].type;
+                message = message[message.length - 1];
+                const code = errors[key].code || 400;
+                const error = {name, message, code};
                 list.push(error);
             }
         }
 
         return {data: list, code: list[0].code};
-    } else if (code !== null && code !== undefined) {
-
-        const errorModel: IError = {name: '', message: sequelizeError['errmsg'], code: sequelizeError['code'].toString()};
-
-        return {data: [errorModel], code: errorModel.code};
     }
-     */
 
-    return {data: 'Sequelize Error', code: 400};
+    return {data: {name: 'SequelizeError', message: 'undefined sequelize error', code: 400}, code: 400};
 }

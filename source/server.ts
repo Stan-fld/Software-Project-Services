@@ -1,6 +1,5 @@
 import './config/config.js';
 import express, {Express} from "express";
-import bodyParser from "body-parser";
 import methodOverride from "method-override";
 import {cors} from "./middleware/cors";
 import {AuthenticationEndpoints} from "./server/enpoints/authentication/authentication-endpoints";
@@ -12,7 +11,7 @@ const env = process.env.NODE_ENV;
 const app: Express = express();
 
 app.use(cors);
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 AuthenticationEndpoints.signUp(app);
