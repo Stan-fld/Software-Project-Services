@@ -5,7 +5,7 @@
   "main": "source/server.ts",
   "scripts": {
     "dev": "nodemon source/server.ts",
-    "start": "pm2-runtime ecosystem.config.js --env production",
+    "start": "pm2 link ceukz9koe9tyd8t 2x1asl1nlrzvkzi && pm2-runtime ecosystem.config.js --env production",
     "build": "rm -rf dist/ && tsc --build",
     "test": "set \"NODE_ENV=test\" && jest --testTimeout=10000 --detectOpenHandles ./source",
     "test:watch": "npm run test -- --watch"
