@@ -34,7 +34,7 @@ describe('GET /auth/createTransactionToken/:transactionCode', () => {
                 }
                 expect(res.body.transaction.id).toBe(SeedTransactions[0].id);
                 expect(res.body.transaction.code).toBe(SeedTransactions[0].code);
-                expect(res.body.transaction.reqCat).toBe(SeedTransactions[0].method);
+                expect(res.body.transaction.method).toBe(SeedTransactions[0].method);
                 expect(res.body.transaction.name).toBe(SeedTransactions[0].name);
                 expect(res.body.transaction.desc).toBe(SeedTransactions[0].desc);
                 expect(res.body.transaction.role.id).toBe(SeedRoles[2].id);
@@ -96,7 +96,7 @@ describe('GET /auth/createTransactionToken/:transactionCode', () => {
                 }
                 expect(res.body.transaction.id).toBe(SeedTransactions[0].id);
                 expect(res.body.transaction.code).toBe(SeedTransactions[0].code);
-                expect(res.body.transaction.reqCat).toBe(SeedTransactions[0].method);
+                expect(res.body.transaction.method).toBe(SeedTransactions[0].method);
                 expect(res.body.transaction.name).toBe(SeedTransactions[0].name);
                 expect(res.body.transaction.desc).toBe(SeedTransactions[0].desc);
                 expect(res.body.transaction.role.id).toBe(SeedRoles[2].id);

@@ -23,7 +23,7 @@ class Transaction extends Model {
 
     toJSON() {
 
-        return bodyPick(['id', 'code', 'reqCat', 'name', 'desc', 'role', 'service'], this);
+        return bodyPick(['id', 'code', 'method', 'name', 'desc', 'role', 'service'], this);
 
     }
 }
