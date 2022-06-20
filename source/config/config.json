@@ -1,7 +1,6 @@
 {
   "test": {
     "PORT": 8000,
-    "MONGODB_URI": "mongodb://127.0.0.1:27017/ceseat_db",
     "MYSQL_URI": "mysql-projetcesi.alwaysdata.net",
     "MYSQL_DB_NAME": "projetcesi_authentication_test_db",
     "MYSQL_DB_USER": "271246",
@@ -10,9 +9,6 @@
   },
   "development": {
     "PORT": 8000,
-    "MONGODB_ATLAS_URI": "mongodb+srv://CesiSoftwareProject:VX4HGy7MYgJe7I3Cclustersoftwareproject.vqdf5.mongodb.net/ceseat_db",
-    "MONGODB_URI": "mongodb://127.0.0.1:27017/ceseat_db",
-    "MONGODB_DB_NAME": "ceseat_db",
     "MYSQL_URI": "mysql-projetcesi.alwaysdata.net",
     "MYSQL_DB_NAME": "projetcesi_authentication_db",
     "MYSQL_DB_USER": "271246",
