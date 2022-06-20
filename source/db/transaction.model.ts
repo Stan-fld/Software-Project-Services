@@ -13,7 +13,7 @@ const config = {
 class Transaction extends Model {
     id!: string;
     code!: string;
-    reqCat!: string;
+    method!: string;
     name!: string;
     desc!: string;
     roleId!: string;
@@ -40,7 +40,7 @@ Transaction.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    reqCat: {
+    method: {
         type: DataTypes.ENUM('GET', 'PUT', 'PATCH', 'POST', 'DELETE'),
         allowNull: false,
     },

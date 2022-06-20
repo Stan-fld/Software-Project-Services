@@ -11,7 +11,7 @@ export const roles = {
     }
 }
 
-export const reqCat = {
+export const methods = {
     get: 'GET',
     put: 'PUT',
     patch: 'PATCH',
