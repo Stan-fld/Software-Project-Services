@@ -5,14 +5,22 @@ import {cors} from "./middleware/cors";
 import {AuthenticationEndpoints} from "./server/enpoints/authentication/authentication-endpoints";
 import sequelize from "./db/setup/db-mysql-setup";
 import {TransactionTokenEndpoints} from "./server/enpoints/transaction-token/transaction-token-endpoints";
+import * as rfs from "rotating-file-stream";
+import * as path from "path";
+import morgan from "morgan";
 
 
 const env = process.env.NODE_ENV;
+const accessLogStream = rfs.createStream('access.log', {
+    interval: '1d', // rotate daily
+    path: path.join(__dirname, 'log')
+});
 const app: Express = express();
 
 app.use(cors);
 app.use(express.json());
 app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(morgan('combined', {stream: accessLogStream}));
 
 AuthenticationEndpoints.signUp(app);
 AuthenticationEndpoints.signIn(app);
