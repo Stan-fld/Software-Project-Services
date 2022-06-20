@@ -9,7 +9,7 @@ import {
     SeedUsers
 } from "../../seed-data";
 import User from "../../../db/user.model";
-import DoneCallback = jest.DoneCallback;
+import sequelize from "../../../db/setup/db-mysql-setup";
 
 
 describe('POST /auth/register', () => {
@@ -140,9 +140,9 @@ describe('POST /auth/login', () => {
 });
 
 
-function removeUsers(done: DoneCallback) {
-    User.destroy({truncate: true}).then(() => {
-            done();
-        }
-    )
+function removeUsers(done) {
+    sequelize.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then(() => {
+
+        return User.destroy({truncate: true});
+    }).then(() => done())
 }

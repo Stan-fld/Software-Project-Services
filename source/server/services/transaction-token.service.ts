@@ -2,26 +2,36 @@ import jwt from "jsonwebtoken";
 import TransactionToken from "../../db/transaction-token.model";
 import Transaction from "../../db/transaction.model";
 import User from "../../db/user.model";
+import {v4} from "uuid";
 
-export class TransactionTokenService extends TransactionToken {
+export class TransactionTokenService {
 
     /**
      * Service to create a transaction token for given transaction and user
      * @param transaction
      * @param user
+     * @param transactionToken
      */
-    static createTransactionToken(transaction: Transaction, user: User): Promise<TransactionToken> {
-        const transactionToken = new TransactionToken();
+    static createTransactionToken(transactionToken: TransactionToken, transaction: Transaction, user: User): Promise<TransactionToken> {
+
+        transactionToken.id = v4();
+        transactionToken.userId = user.id;
+        transactionToken.transactionId = transaction.id;
 
         transactionToken.token = jwt.sign({
-            transactionId: transaction.id.toString(),
-            userId: user.id.toString(),
-            serviceId: transaction.service.id.toString(),
-            roleId: transaction.role.toString(),
+            id: transactionToken.id,
             iat: Date.now() / 1000
         }, process.env.JWT_SECRET!, {expiresIn: '10m'}).toString();
 
         return transactionToken.save();
+    }
+
+    /**
+     * Service to find a transaction token for given user id
+     * @param userId
+     */
+    static findWithUserId(userId: string) {
+        return TransactionToken.findOne({where: {userId: userId}});
     }
 
     /**

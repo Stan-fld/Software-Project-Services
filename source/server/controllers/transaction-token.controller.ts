@@ -18,18 +18,24 @@ export class TransactionTokenController {
             const transaction: Transaction = await TransactionService.findWithCodeAndUserRole(transactionCode, user);
 
             if (!transaction) {
-                return createError('CouldNotFindTransaction', 'Could not find transaction for given code', 404);
+                return createError('CouldNotFindTransaction', 'Could not find transaction for given code and user role', 404);
             }
 
             if (!transaction.role) {
-                return createError('CouldNotFindRole', 'Could not find transaction role for given code', 404);
+                return createError('CouldNotFindRole', 'Could not find transaction role for given code and user role', 404);
             }
 
             if (!transaction.service) {
-                return createError('CouldNotFindService', 'Could not find transaction services for given code', 404);
+                return createError('CouldNotFindService', 'Could not find transaction services for given code and user role', 404);
             }
 
-            const transactionToken: TransactionToken = await TransactionTokenService.createTransactionToken(transaction, user);
+            let transactionToken: TransactionToken = await TransactionTokenService.findWithUserId(user.id);
+
+            if (!transactionToken) {
+                transactionToken = new TransactionToken();
+            }
+
+            transactionToken = await TransactionTokenService.createTransactionToken(transactionToken, transaction, user);
 
             return {data: {transaction, transactionToken}, code: 201};
         } catch (e) {

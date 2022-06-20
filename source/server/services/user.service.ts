@@ -11,12 +11,12 @@ export class UserService {
     static createAuthToken(user: User): Promise<User> {
 
         user.accessToken = jwt.sign({
-            _id: user.id.toString(),
+            id: user.id.toString(),
             iat: Date.now() / 1000
         }, process.env.JWT_SECRET!, {expiresIn: '1h'}).toString();
 
         user.refreshToken = jwt.sign({
-            _id: user.id.toString(),
+            id: user.id.toString(),
             iat: Date.now() / 1000
         }, process.env.JWT_SECRET!, {expiresIn: '48h'}).toString();
 

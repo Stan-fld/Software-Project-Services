@@ -1,9 +1,8 @@
-import jwt from "jsonwebtoken";
-import {createError, sequelizeErrors} from "../server/errors/errors";
 import sequelize from "./setup/db-mysql-setup";
 import {DataTypes, Model} from "sequelize";
-import Role from "./role.model";
+import User from "./user.model";
 import Transaction from "./transaction.model";
+import {bodyPick} from "../middleware/utils";
 
 
 const config = {
@@ -14,44 +13,13 @@ const config = {
 
 class TransactionToken extends Model {
     id!: string;
+    userId!: string;
+    transactionId!: string;
     token!: string;
 
-    createTransactionToken(transactionCode: string) {
+    toJSON() {
 
-        return Transaction.findOne({where: {code: transactionCode}}).then((transaction: Transaction) => {
-
-            if (!transaction) {
-                return Promise.reject(createError('CouldNotFindTransaction', 'Could not find transaction for given code', 404));
-            }
-
-            return Role.findOne({where: {_id: transaction.role}}).then((role: Role) => {
-
-                if (!role) {
-                    return Promise.reject(createError('CouldNotFindRole', 'Could not find transaction role for given code', 404));
-                }
-
-                this.token = jwt.sign({
-                    roleId: transaction.role,
-                    transactionId: transaction.id,
-                    iat: Date.now() / 1000
-                }, process.env.JWT_SECRET!, {expiresIn: '2h'}).toString();
-
-                return this.save().then((transactionToken: TransactionToken) => {
-
-                    if (!transactionToken) {
-                        return Promise.reject(createError('CouldNotCreateToken', 'Could not create token', 400));
-                    }
-
-                    return {transaction, transactionToken, role};
-
-                }).catch((e) => {
-                    return Promise.reject(sequelizeErrors(e))
-                });
-            })
-
-        }).catch((e) => {
-            return Promise.reject(sequelizeErrors(e))
-        })
+        return bodyPick(['token'], this);
 
     }
 }
@@ -69,5 +37,10 @@ TransactionToken.init({
         allowNull: false
     }
 }, config);
+User.hasOne(TransactionToken, {foreignKey: 'userId', as: 'transactionToken'});
+TransactionToken.belongsTo(User, {foreignKey: 'userId', as: 'user'});
+
+Transaction.hasMany(TransactionToken, {foreignKey: 'transactionId', as: 'transactionTokens'});
+TransactionToken.belongsTo(Transaction, {foreignKey: 'transactionId', as: 'transaction'});
 
 export default TransactionToken;

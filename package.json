@@ -1,7 +1,7 @@
 {
-  "name": "software-project-restaurant-management",
+  "name": "software-project-authenticate-service",
   "version": "1.0.0",
-  "description": "Software Project Node.js API for Restaurant Management",
+  "description": "Software Project Node.js API for Authentication Service",
   "main": "source/server.ts",
   "scripts": {
     "dev": "nodemon source/server.ts",

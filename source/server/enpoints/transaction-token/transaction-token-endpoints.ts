@@ -9,9 +9,9 @@ export class TransactionTokenEndpoints {
      * @param app
      */
     static createTransactionToken(app: Express) {
-        app.post('/auth/createTransactionToken', authenticateUser, async (req: any, res) => {
+        app.get('/auth/createTransactionToken/:transactionCode', authenticateUser, async (req: any, res) => {
 
-            const response = await TransactionTokenController.createTransactionToken(req.data.transactionCode, req.user);
+            const response = await TransactionTokenController.createTransactionToken(req.params.transactionCode, req.user);
 
             res.status(response.code).send(response.data);
 
@@ -23,9 +23,9 @@ export class TransactionTokenEndpoints {
      * @param app
      */
     static deleteTransactionToken(app: Express) {
-        app.post('/auth/deleteTransactionToken/:transactionToken', async (req: any, res) => {
+        app.delete('/auth/deleteTransactionToken/:transactionToken', async (req: any, res) => {
 
-            const response = await TransactionTokenController.deleteTransactionToken(req.data.transactionToken);
+            const response = await TransactionTokenController.deleteTransactionToken(req.params.transactionToken);
 
             res.status(response.code).send(response.data);
 

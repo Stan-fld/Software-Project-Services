@@ -2,6 +2,7 @@ import sequelize from "./setup/db-mysql-setup";
 import {DataTypes, Model} from "sequelize";
 import Role from "./role.model";
 import Service from "./service.model";
+import {bodyPick} from "../middleware/utils";
 
 const config = {
     tableName: 'Transactions',
@@ -19,6 +20,12 @@ class Transaction extends Model {
     role: Role;
     serviceId!: string;
     service: Service;
+
+    toJSON() {
+
+        return bodyPick(['id', 'code', 'reqCat', 'name', 'desc', 'role', 'service'], this);
+
+    }
 }
 
 Transaction.init({
@@ -50,7 +57,7 @@ Transaction.init({
 Role.hasMany(Transaction, {foreignKey: 'roleId', as: 'transactions'});
 Transaction.belongsTo(Role, {foreignKey: 'roleId', as: 'role'});
 
-Service.hasMany(Transaction, {foreignKey: 'serviceId',as: 'transactions'});
+Service.hasMany(Transaction, {foreignKey: 'serviceId', as: 'transactions'});
 Transaction.belongsTo(Service, {foreignKey: 'serviceId', as: 'service'});
 
 export default Transaction;

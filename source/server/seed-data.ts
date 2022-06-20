@@ -50,7 +50,7 @@ export const SeedRoles = [{
 export const PopulateRoles = (done) => {
 
     sequelize.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then(() => {
-        Role.destroy({truncate: true}).then(() => {
+        return Role.destroy({truncate: true}).then(() => {
             // required for pre save middleware
             const saveMethods = [];
 
@@ -87,7 +87,7 @@ export const SeedServices = [{
 export const PopulateServices = (done) => {
 
     sequelize.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then(() => {
-        Service.destroy({truncate: true}).then(() => {
+        return Service.destroy({truncate: true}).then(() => {
             // required for pre save middleware
             const saveMethods = [];
 
@@ -101,28 +101,39 @@ export const PopulateServices = (done) => {
 }
 
 const transactionOneId = v4();
+const transactionTwoId = v4();
 
 export const SeedTransactions = [{
     id: transactionOneId.toString(),
-    code: 'UU',
+    code: 'UC',
     reqCat: reqCat.post,
-    name: 'updateUser',
-    desc: 'Update user',
+    name: 'updateClient',
+    desc: 'Update client',
     roleId: SeedRoles[2].id.toString(),
     serviceId: SeedServices[2].id.toString()
+}, {
+    id: transactionTwoId.toString(),
+    code: 'CM',
+    reqCat: reqCat.post,
+    name: 'createMenu',
+    desc: 'Create menu',
+    roleId: SeedRoles[1].id.toString(),
+    serviceId: SeedServices[1].id.toString()
 }]
 
 export const PopulateTransactions = (done) => {
 
-    Transaction.destroy({truncate: true}).then(() => {
-        // required for pre save middleware
-        const saveMethods = [];
+    sequelize.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then(() => {
+        return Transaction.destroy({truncate: true}).then(() => {
+            // required for pre save middleware
+            const saveMethods = [];
 
-        for (const transaction of SeedTransactions) {
-            saveMethods.push((new Transaction(transaction)).save());
-        }
+            for (const transaction of SeedTransactions) {
+                saveMethods.push((new Transaction(transaction)).save());
+            }
 
-        return Promise.all(saveMethods);
+            return Promise.all(saveMethods);
+        });
     }).then(() => done());
 }
 
@@ -138,25 +149,27 @@ export const SeedUsers = [{
     password: '12345678',
     roleId: SeedRoles[2].id.toString(),
     accessToken: jwt.sign({
-        _id: userOneId.toString(),
+        id: userOneId.toString(),
         iat: Date.now() / 1000
     }, process.env.JWT_SECRET!, {expiresIn: '1h'}).toString(),
     refreshToken: jwt.sign({
-        _id: userOneId.toString(),
+        id: userOneId.toString(),
         iat: Date.now() / 1000
     }, process.env.JWT_SECRET!, {expiresIn: '48h'}).toString()
 }];
 
 export const PopulateUsers = (done) => {
 
-    User.destroy({truncate: true}).then(() => {
-        // required for pre save middleware
-        const saveMethods = [];
+    sequelize.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then(() => {
+        return User.destroy({truncate: true}).then(() => {
+            // required for pre save middleware
+            const saveMethods = [];
 
-        for (const user of SeedUsers) {
-            saveMethods.push((new User(user)).save());
-        }
+            for (const user of SeedUsers) {
+                saveMethods.push((new User(user)).save());
+            }
 
-        return Promise.all(saveMethods);
+            return Promise.all(saveMethods);
+        });
     }).then(() => done());
 }
