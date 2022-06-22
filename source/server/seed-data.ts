@@ -105,10 +105,10 @@ const transactionTwoId = v4();
 
 export const SeedTransactions = [{
     id: transactionOneId.toString(),
-    code: 'UC',
+    code: 'UU',
     method: methods.post,
-    name: 'updateClient',
-    desc: 'Update client',
+    name: 'updateUser',
+    desc: 'Update user',
     roleId: SeedRoles[2].id.toString(),
     serviceId: SeedServices[2].id.toString()
 }, {

@@ -25,7 +25,7 @@ describe('GET /auth/createTransactionToken/:transactionCode', () => {
 
         let transactionToken;
         request(app)
-            .get('/auth/createTransactionToken/UC')
+            .get('/auth/createTransactionToken/UU')
             .set('x-auth', SeedUsers[0].accessToken)
             .then((res) => {
 
@@ -46,7 +46,7 @@ describe('GET /auth/createTransactionToken/:transactionCode', () => {
                 transactionToken = res.body.transactionToken.token;
 
                 request(app)
-                    .get('/auth/createTransactionToken/UC')
+                    .get('/auth/createTransactionToken/UU')
                     .set('x-auth', SeedUsers[0].accessToken)
                     .then((res) => {
 
@@ -87,7 +87,7 @@ describe('GET /auth/createTransactionToken/:transactionCode', () => {
 
         let transactionToken;
         request(app)
-            .get('/auth/createTransactionToken/UC')
+            .get('/auth/createTransactionToken/UU')
             .set('x-auth', SeedUsers[0].accessToken)
             .then((res) => {
 

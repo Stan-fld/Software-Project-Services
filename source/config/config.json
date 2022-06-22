@@ -1,18 +1,20 @@
 {
   "test": {
-    "PORT": 8000,
-    "MYSQL_URI": "mysql-projetcesi.alwaysdata.net",
-    "MYSQL_DB_NAME": "projetcesi_authentication_test_db",
-    "MYSQL_DB_USER": "271246",
-    "MYSQL_DB_PASS": "azertyuio12345678",
-    "JWT_SECRET": "TheSecretJWt"
+    "port": 8000,
+    "host": "mysql-projetcesi.alwaysdata.net",
+    "database": "projetcesi_authentication_test_db",
+    "username": "271246",
+    "password": "azertyuio12345678",
+    "dialect": "mysql",
+    "jwt_secret": "TheSecretJWt"
   },
   "development": {
-    "PORT": 8000,
-    "MYSQL_URI": "mysql-projetcesi.alwaysdata.net",
-    "MYSQL_DB_NAME": "projetcesi_authentication_db",
-    "MYSQL_DB_USER": "271246",
-    "MYSQL_DB_PASS": "azertyuio12345678",
-    "JWT_SECRET": "TheSecretJWt"
+    "port": 8000,
+    "host": "mysql-projetcesi.alwaysdata.net",
+    "database": "projetcesi_authentication_db",
+    "username": "271246",
+    "password": "azertyuio12345678",
+    "dialect": "mysql",
+    "jwt_secret": "TheSecretJWt"
   }
 }
