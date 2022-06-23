@@ -13,7 +13,7 @@ const config = {
 class Transaction extends Model {
     id!: string;
     code!: string;
-    reqCat!: string;
+    method!: string;
     name!: string;
     desc!: string;
     roleId!: string;
@@ -23,7 +23,7 @@ class Transaction extends Model {
 
     toJSON() {
 
-        return bodyPick(['id', 'code', 'reqCat', 'name', 'desc', 'role', 'service'], this);
+        return bodyPick(['id', 'code', 'method', 'name', 'desc', 'role', 'service'], this);
 
     }
 }
@@ -34,13 +34,14 @@ Transaction.init({
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
+        unique: true,
         primaryKey: true
     },
     code: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    reqCat: {
+    method: {
         type: DataTypes.ENUM('GET', 'PUT', 'PATCH', 'POST', 'DELETE'),
         allowNull: false,
     },

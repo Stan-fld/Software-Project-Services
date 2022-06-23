@@ -1,4 +1,4 @@
-import {reqCat, roles} from "../config/enums";
+import {methods, roles} from "../config/enums";
 import {v4} from 'uuid';
 import sequelize from "../db/setup/db-mysql-setup";
 import Role from "../db/role.model";
@@ -105,16 +105,16 @@ const transactionTwoId = v4();
 
 export const SeedTransactions = [{
     id: transactionOneId.toString(),
-    code: 'UC',
-    reqCat: reqCat.post,
-    name: 'updateClient',
-    desc: 'Update client',
+    code: 'UU',
+    method: methods.post,
+    name: 'updateUser',
+    desc: 'Update user',
     roleId: SeedRoles[2].id.toString(),
     serviceId: SeedServices[2].id.toString()
 }, {
     id: transactionTwoId.toString(),
     code: 'CM',
-    reqCat: reqCat.post,
+    method: methods.post,
     name: 'createMenu',
     desc: 'Create menu',
     roleId: SeedRoles[1].id.toString(),

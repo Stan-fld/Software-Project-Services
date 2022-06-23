@@ -1,16 +1,9 @@
-import {Sequelize} from 'sequelize';
+import {Dialect, Sequelize} from 'sequelize';
 
-const sequelize = new Sequelize(process.env.MYSQL_DB_NAME, process.env.MYSQL_DB_USER, process.env.MYSQL_DB_PASS, {
-    host: process.env.MYSQL_URI,
-    dialect: 'mysql',
+const sequelize = new Sequelize(process.env.database, process.env.username, process.env.password, {
+    host: process.env.host,
+    dialect: process.env.dialect as Dialect,
     logging: false
 });
-
-sequelize.authenticate().then(() => {
-    sequelize.sync().then(() => {
-        console.log('db and tables have been created');
-    });
-});
-
 
 export default sequelize;
