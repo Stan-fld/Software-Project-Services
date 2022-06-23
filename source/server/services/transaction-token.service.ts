@@ -21,7 +21,7 @@ export class TransactionTokenService {
         transactionToken.token = jwt.sign({
             id: transactionToken.id,
             iat: Date.now() / 1000
-        }, process.env.JWT_SECRET!, {expiresIn: '10m'}).toString();
+        }, process.env.jwt_secret!, {expiresIn: '10m'}).toString();
 
         return transactionToken.save();
     }

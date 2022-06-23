@@ -31,7 +31,7 @@ app.use(function (req, res) {
 });
 
 if (env !== "test") {
-    const PORT: any = process.env.PORT ?? 3000;
+    const PORT: any = process.env.port ?? 3000;
     app.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
 } else {
     afterAll(() => {

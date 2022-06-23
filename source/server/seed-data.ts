@@ -151,11 +151,11 @@ export const SeedUsers = [{
     accessToken: jwt.sign({
         id: userOneId.toString(),
         iat: Date.now() / 1000
-    }, process.env.JWT_SECRET!, {expiresIn: '1h'}).toString(),
+    }, process.env.jwt_secret!, {expiresIn: '1h'}).toString(),
     refreshToken: jwt.sign({
         id: userOneId.toString(),
         iat: Date.now() / 1000
-    }, process.env.JWT_SECRET!, {expiresIn: '48h'}).toString()
+    }, process.env.jwt_secret!, {expiresIn: '48h'}).toString()
 }];
 
 export const PopulateUsers = (done) => {

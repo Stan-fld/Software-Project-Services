@@ -11,7 +11,7 @@ export async function authenticateUser(req: any, res, next: any) {
     let user: User;
 
     try {
-        decodedAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET!, {ignoreExpiration: true});
+        decodedAccessToken = jwt.verify(accessToken, process.env.jwt_secret!, {ignoreExpiration: true});
     } catch (e) {
         return Promise.reject(authenticationFailed('AccessToken is malformed', 401));
     }
@@ -29,7 +29,7 @@ export async function authenticateUser(req: any, res, next: any) {
     if (decodedAccessToken.exp * 1000 < Date.now()) {
 
         try {
-            decodedRefreshToken = jwt.verify(user.refreshToken, process.env.JWT_SECRET!, {ignoreExpiration: true});
+            decodedRefreshToken = jwt.verify(user.refreshToken, process.env.jwt_secret!, {ignoreExpiration: true});
         } catch (e) {
             return Promise.reject(authenticationFailed('RefreshToken is malformed', 401));
         }
@@ -42,7 +42,7 @@ export async function authenticateUser(req: any, res, next: any) {
             id: user.id.toString(),
             roleId: user.roleId.toString(),
             iat: Date.now() / 1000
-        }, process.env.JWT_SECRET!, {expiresIn: '1h'}).toString();
+        }, process.env.jwt_secret!, {expiresIn: '1h'}).toString();
 
         await user.save();
     }

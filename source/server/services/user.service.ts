@@ -13,12 +13,12 @@ export class UserService {
         user.accessToken = jwt.sign({
             id: user.id.toString(),
             iat: Date.now() / 1000
-        }, process.env.JWT_SECRET!, {expiresIn: '1h'}).toString();
+        }, process.env.jwt_secret!, {expiresIn: '1h'}).toString();
 
         user.refreshToken = jwt.sign({
             id: user.id.toString(),
             iat: Date.now() / 1000
-        }, process.env.JWT_SECRET!, {expiresIn: '48h'}).toString();
+        }, process.env.jwt_secret!, {expiresIn: '48h'}).toString();
 
         return user.save();
     }
