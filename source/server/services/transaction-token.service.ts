@@ -43,6 +43,15 @@ export class TransactionTokenService {
     }
 
     /**
+     * Service to find a transaction token for given token and id
+     * @param token
+     * @param transactionTokenId
+     */
+    static findWithTokenAndId(token: string, transactionTokenId: string): Promise<TransactionToken> {
+        return TransactionToken.findOne({where: {id: transactionTokenId, token: token}});
+    }
+
+    /**
      * Service to delete a transaction token for given transaction token object
      * @param transactionToken
      */

@@ -6,6 +6,7 @@ import Transaction from "../db/transaction.model";
 import Service from "../db/service.model";
 import jwt from "jsonwebtoken";
 import User from "../db/user.model";
+import TransactionToken from "../db/transaction-token.model";
 
 
 const roleOneId = v4();
@@ -171,5 +172,51 @@ export const PopulateUsers = (done) => {
 
             return Promise.all(saveMethods);
         });
+    }).then(() => done());
+}
+
+
+const transactionTokenOneId = v4();
+const transactionTokenTwoId = v4();
+const transactionTokenTheeId = v4();
+
+export const SeedTransactionTokens = [{
+    id: transactionTokenOneId.toString(),
+    userId: SeedUsers[0].id,
+    transactionId: SeedTransactions[0].id,
+    token: jwt.sign({
+        id: transactionTokenOneId.toString(),
+        iat: Date.now() / 1000
+    }, process.env.jwt_secret!, {expiresIn: '10m'}).toString()
+}, {
+    id: transactionTokenTwoId.toString(),
+    userId: SeedUsers[0].id,
+    transactionId: SeedTransactions[1].id,
+    token: jwt.sign({
+        id: transactionTokenTwoId.toString(),
+        iat: Date.now() / 1000
+    }, process.env.jwt_secret!, {expiresIn: '10m'}).toString()
+}, {
+    id: transactionTokenTheeId.toString(),
+    userId: SeedUsers[0].id,
+    transactionId: SeedTransactions[0].id,
+    token: jwt.sign({
+        id: transactionTokenTwoId.toString(),
+        iat: Date.now() / 1000
+    }, process.env.jwt_secret!, {expiresIn: '-10m'}).toString()
+}];
+
+
+export const PopulateTransactionTokens = (done) => {
+
+    TransactionToken.destroy({truncate: true}).then(() => {
+        // required for pre save middleware
+        const saveMethods = [];
+
+        for (const transactionToken of SeedTransactionTokens) {
+            saveMethods.push((new TransactionToken(transactionToken)).save());
+        }
+
+        return Promise.all(saveMethods);
     }).then(() => done());
 }

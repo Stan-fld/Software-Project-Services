@@ -40,6 +40,10 @@ export class UserService {
         return User.findOne({where: {email: email}, include: ['role']});
     }
 
+    static findWithId(userId: string): Promise<User> {
+        return User.findByPk(userId, {include: ['role']});
+    }
+
     /**
      * Service to compare a password with user password
      * @param user

@@ -13,17 +13,17 @@ export async function authenticateUser(req: any, res, next: any) {
     try {
         decodedAccessToken = jwt.verify(accessToken, process.env.jwt_secret!, {ignoreExpiration: true});
     } catch (e) {
-        return Promise.reject(authenticationFailed('AccessToken is malformed', 401));
+        return res.status(401).send(authenticationFailed('AccessToken is malformed', 401).data);
     }
 
     try {
         user = await UserService.findWithAccessToken(decodedAccessToken.id, accessToken);
 
         if (!user) {
-            return Promise.reject(authenticationFailed('Cannot find user for given access token', 401));
+            return res.status(401).send(authenticationFailed('Cannot find user for given access token', 401).data);
         }
     } catch (e) {
-        return Promise.reject(sequelizeErrors(e));
+        return res.status(401).send(sequelizeErrors(e).data);
     }
 
     if (decodedAccessToken.exp * 1000 < Date.now()) {
@@ -31,11 +31,11 @@ export async function authenticateUser(req: any, res, next: any) {
         try {
             decodedRefreshToken = jwt.verify(user.refreshToken, process.env.jwt_secret!, {ignoreExpiration: true});
         } catch (e) {
-            return Promise.reject(authenticationFailed('RefreshToken is malformed', 401));
+            return res.status(401).send(authenticationFailed('RefreshToken is malformed', 401).data);
         }
 
         if (decodedRefreshToken.exp * 1000 < Date.now()) {
-            return Promise.reject(authenticationFailed('The access and refresh tokens has expired', 401));
+            return res.status(401).send(authenticationFailed('The access and refresh tokens has expired', 401).data);
         }
 
         user.accessToken = jwt.sign({

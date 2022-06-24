@@ -32,5 +32,5 @@ export function sequelizeErrors(sequelizeError: any) {
         return {data: list, code: list[0].code};
     }
 
-    return {data: {name: 'SequelizeError', message: 'undefined sequelize error', code: 400}, code: 400};
+    return {data: {name: 'SequelizeError', message: 'Undefined sequelize error', code: 400}, code: 400};
 }

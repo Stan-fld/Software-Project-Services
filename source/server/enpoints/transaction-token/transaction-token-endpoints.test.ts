@@ -4,13 +4,16 @@ import {
     PopulateRoles,
     PopulateServices,
     PopulateTransactions,
+    PopulateTransactionTokens,
     PopulateUsers,
     SeedRoles,
     SeedServices,
     SeedTransactions,
+    SeedTransactionTokens,
     SeedUsers
 } from "../../seed-data";
 import TransactionToken from "../../../db/transaction-token.model";
+import jwt from "jsonwebtoken";
 
 
 describe('GET /auth/createTransactionToken/:transactionCode', () => {
@@ -83,6 +86,26 @@ describe('GET /auth/createTransactionToken/:transactionCode', () => {
             });
     });
 
+    it('should return accessToken malformed', (done) => {
+
+        const accessToken = jwt.sign({
+            id: '123',
+            iat: Date.now() / 1000
+        }, 'secretPass', {expiresIn: '-1h'}).toString();
+
+        request(app)
+            .get('/auth/createTransactionToken/UU')
+            .set('x-auth', accessToken)
+            .then((res) => {
+
+                expect(res.status).toBe(401);
+                expect(res.body.name).toBe('AuthenticationFailed');
+                expect(res.body.message).toBe('AccessToken is malformed');
+                done();
+
+            });
+    });
+
     it('should create a transaction token and delete it', (done) => {
 
         let transactionToken;
@@ -127,6 +150,61 @@ describe('GET /auth/createTransactionToken/:transactionCode', () => {
 
                 });
             })
+    });
+});
+
+
+describe('GET /auth/confirmTransaction/:transactionToken', () => {
+
+    beforeEach(PopulateRoles);
+    beforeEach(PopulateServices);
+    beforeEach(PopulateTransactions);
+    beforeEach(PopulateUsers);
+    beforeEach(PopulateTransactionTokens);
+
+    it('should confirm transaction to update user', (done) => {
+        request(app)
+            .get('/auth/confirmTransaction/' + SeedTransactionTokens[0].token)
+            .then((res) => {
+                if (res.error) {
+                    console.log(res.error);
+                }
+
+                expect(res.body.userId).toBe(SeedUsers[0].id);
+                expect(res.body.isConfirmed).toBe(true);
+
+                done();
+            });
+    });
+
+    it('should return token malformed or expired', (done) => {
+        request(app)
+            .get('/auth/confirmTransaction/12345')
+            .then((res) => {
+                expect(res.status).toBe(401);
+                expect(res.body.name).toBe('TokenMalformedOrExpired');
+                done();
+            });
+    });
+
+    it('should return token malformed or expired', (done) => {
+        request(app)
+            .get('/auth/confirmTransaction/' + SeedTransactionTokens[2].token)
+            .then((res) => {
+                expect(res.status).toBe(401);
+                expect(res.body.name).toBe('TokenMalformedOrExpired');
+                done();
+            });
+    });
+
+    it('should return token user role does not match transaction role', (done) => {
+        request(app)
+            .get('/auth/confirmTransaction/' + SeedTransactionTokens[1].token)
+            .then((res) => {
+                expect(res.status).toBe(403);
+                expect(res.body.name).toBe('UserRoleMismatch');
+                done();
+            });
     });
 });
 

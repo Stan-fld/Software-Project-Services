@@ -31,4 +31,18 @@ export class TransactionTokenEndpoints {
 
         });
     }
+
+    /**
+     * Endpoint for confirm transaction token
+     * @param app
+     */
+    static confirmTransaction(app: Express) {
+        app.get('/auth/confirmTransaction/:transactionToken', async (req: any, res) => {
+
+            const response = await TransactionTokenController.confirmTransactionToken(req.params.transactionToken);
+
+            res.status(response.code).send(response.data);
+
+        });
+    }
 }

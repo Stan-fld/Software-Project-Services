@@ -12,4 +12,8 @@ export class TransactionService extends Transaction {
     static findWithCodeAndUserRole(transactionCode: string, user:User): Promise<Transaction> {
         return this.findOne({where: {code: transactionCode, roleId: user.roleId}, include: ['role', 'service']});
     }
+
+    static findWithId(transactionId: string){
+        return this.findByPk(transactionId, {include: ['role']});
+    }
 }

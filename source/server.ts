@@ -19,6 +19,7 @@ AuthenticationEndpoints.signIn(app);
 
 TransactionTokenEndpoints.createTransactionToken(app);
 TransactionTokenEndpoints.deleteTransactionToken(app);
+TransactionTokenEndpoints.confirmTransaction(app);
 
 // Handling Errors and 404
 app.use(function (req, res) {
