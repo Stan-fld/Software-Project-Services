@@ -2,9 +2,8 @@ import './config/config.js';
 import express, {Express} from "express";
 import methodOverride from "method-override";
 import {cors} from "./middleware/cors";
-import {AuthenticationEndpoints} from "./server/enpoints/authentication/authentication-endpoints";
 import sequelize from "./db/setup/db-mysql-setup";
-import {TransactionTokenEndpoints} from "./server/enpoints/transaction-token/transaction-token-endpoints";
+import {UserEndpoints} from "./server/enpoints/user/user-endpoints";
 
 
 const env = process.env.NODE_ENV;
@@ -14,11 +13,7 @@ app.use(cors);
 app.use(express.json());
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-AuthenticationEndpoints.signUp(app);
-AuthenticationEndpoints.signIn(app);
-
-TransactionTokenEndpoints.createTransactionToken(app);
-TransactionTokenEndpoints.deleteTransactionToken(app);
+UserEndpoints.updateUser(app);
 
 // Handling Errors and 404
 app.use(function (req, res) {

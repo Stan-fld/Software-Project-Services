@@ -1,6 +1,6 @@
 {
   "test": {
-    "port": 8000,
+    "port": 8100,
     "host": "mysql-projetcesi.alwaysdata.net",
     "database": "projetcesi_authentication_test_db",
     "username": "271246",
@@ -9,7 +9,7 @@
     "jwt_secret": "TheSecretJWt"
   },
   "development": {
-    "port": 8000,
+    "port": 8100,
     "host": "mysql-projetcesi.alwaysdata.net",
     "database": "projetcesi_authentication_db",
     "username": "271246",

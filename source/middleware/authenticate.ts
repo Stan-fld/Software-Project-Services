@@ -1,52 +1,32 @@
-import {authenticationFailed, sequelizeErrors} from "../server/errors/errors";
-import jwt from "jsonwebtoken";
-import {UserService} from "../server/services/user.service";
-import User from "../db/user.model";
+import axios from "axios";
+import {createError} from "../server/errors/errors";
+import {Role} from "../models/role.model";
 
-export async function authenticateUser(req: any, res, next: any) {
+export async function authenticateTransaction(req: any, res, next: any) {
 
-    const accessToken: string = req.header('x-auth');
-    let decodedAccessToken;
-    let decodedRefreshToken;
-    let user: User;
+    const transactionToken: string = req.header('trx-auth');
 
     try {
-        decodedAccessToken = jwt.verify(accessToken, process.env.jwt_secret!, {ignoreExpiration: true});
+        const {data}: { data: { isConfirmed: boolean, userId: string, role: Role } } = await axios.get(
+            'http://nginx:80/auth/confirmTransaction/' + transactionToken,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+        if (!data.isConfirmed) {
+            return res.status(401).send(createError('TransactionNotConfirmed', 'The transaction is not confirmed', 403).data);
+        }
+
+        req.userId = data.userId;
+        req.role = data.role;
+        next();
     } catch (e) {
-        return Promise.reject(authenticationFailed('AccessToken is malformed', 401));
-    }
-
-    try {
-        user = await UserService.findWithAccessToken(decodedAccessToken.id, accessToken);
-
-        if (!user) {
-            return Promise.reject(authenticationFailed('Cannot find user for given access token', 401));
-        }
-    } catch (e) {
-        return Promise.reject(sequelizeErrors(e));
-    }
-
-    if (decodedAccessToken.exp * 1000 < Date.now()) {
-
-        try {
-            decodedRefreshToken = jwt.verify(user.refreshToken, process.env.jwt_secret!, {ignoreExpiration: true});
-        } catch (e) {
-            return Promise.reject(authenticationFailed('RefreshToken is malformed', 401));
+        if (!e.response) {
+            return res.status(500).send({message: 'Internal server user error'});
         }
 
-        if (decodedRefreshToken.exp * 1000 < Date.now()) {
-            return Promise.reject(authenticationFailed('The access and refresh tokens has expired', 401));
-        }
-
-        user.accessToken = jwt.sign({
-            id: user.id.toString(),
-            roleId: user.roleId.toString(),
-            iat: Date.now() / 1000
-        }, process.env.jwt_secret!, {expiresIn: '1h'}).toString();
-
-        await user.save();
+        return res.status(e.response.status).send(e.response.data);
     }
-
-    req.user = user;
-    next();
 }

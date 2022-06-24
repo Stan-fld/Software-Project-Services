@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import {bodyPick} from "../middleware/utils";
 import sequelize from "./setup/db-mysql-setup";
 import {DataTypes, Model} from "sequelize";
-import Role from "./role.model";
+import {Role} from "../models/role.model";
 
 
 const config = {
@@ -19,14 +19,12 @@ class User extends Model {
     address!: string;
     phone!: string;
     password!: string;
-    roleId!: string;
     role: Role;
     accessToken: string;
-    refreshToken: string;
 
     toJSON() {
 
-        return bodyPick(['id', 'firstName', 'lastName', 'email', 'address', 'phone', 'role', 'accessToken', 'createdAt', 'updatedAt'], this);
+        return bodyPick(['id', 'firstName', 'lastName', 'email', 'address', 'phone', 'role'], this);
 
     }
 }
@@ -106,19 +104,8 @@ User.init({
                 args: [6],
             }
         }
-    },
-    accessToken: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    refreshToken: {
-        type: DataTypes.STRING,
-        allowNull: false
     }
 }, config);
-
-Role.hasMany(User, {foreignKey: 'roleId', as: 'users'});
-User.belongsTo(Role, {foreignKey: 'roleId', as: 'role'});
 
 User.beforeSave((user: User) => {
     if (user.changed('password')) {
