@@ -26,7 +26,7 @@ class User extends Model {
 
     toJSON() {
 
-        return bodyPick(['id', 'firstName', 'lastName', 'email', 'address', 'phone', 'role', 'accessToken', 'createdAt', 'updatedAt'], this);
+        return bodyPick(['id', 'firstName', 'lastName', 'email', 'address', 'phone', 'role', 'accessToken'], this);
 
     }
 }
@@ -91,6 +91,10 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
+            is: {
+                args: /^\+?[0-9]{10,15}$/,
+                msg: 'Phone must be a valid phone number'
+            },
             min: {
                 msg: 'Phone must be at least 4 characters long',
                 args: [4],

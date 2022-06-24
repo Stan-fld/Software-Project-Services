@@ -1,6 +1,6 @@
 export function createError(name: string, message: string, code: number) {
 
-    return {data: {name, message}, code: code};
+    return {data: [{name, message}], code: code};
 
 }
 
@@ -32,5 +32,8 @@ export function sequelizeErrors(sequelizeError: any) {
         return {data: list, code: list[0].code};
     }
 
-    return {data: {name: 'SequelizeError', message: 'Undefined sequelize error', code: 400}, code: 400};
+    return {
+        data: [{name: 'SequelizeError Undefined', message: 'Undefined sequelize error on authentication service', code: 400}],
+        code: 400
+    };
 }
