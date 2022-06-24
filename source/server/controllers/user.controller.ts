@@ -23,7 +23,6 @@ export class UserController {
 
             return {data: {user}, code: 200};
         } catch (e) {
-            console.log(e);
             return sequelizeErrors(e);
         }
     }
