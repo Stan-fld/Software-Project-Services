@@ -16,6 +16,7 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 
 AuthenticationEndpoints.signUp(app);
 AuthenticationEndpoints.signIn(app);
+AuthenticationEndpoints.signOut(app);
 
 TransactionTokenEndpoints.createTransactionToken(app);
 TransactionTokenEndpoints.deleteTransactionToken(app);

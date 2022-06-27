@@ -40,8 +40,20 @@ export class UserService {
         return User.findOne({where: {email: email}, include: ['role']});
     }
 
+    /**
+     * Service to find a user with identifier
+     * @param userId
+     */
     static findWithId(userId: string): Promise<User> {
         return User.findByPk(userId, {include: ['role']});
+    }
+
+    /**
+     * Service to save user
+     * @param user
+     */
+    static saveUser(user: User): Promise<User> {
+        return user.save();
     }
 
     /**

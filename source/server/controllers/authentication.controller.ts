@@ -89,4 +89,20 @@ export class AuthenticationController {
             return sequelizeErrors(e);
         }
     }
+
+    /**
+     * Controller to logout user
+     * @param user
+     */
+    static async logoutUser(user: User) {
+        try {
+            user.accessToken = null;
+            user.refreshToken = null;
+            await UserService.saveUser(user);
+
+            return {data: {success: true}, code: 200};
+        } catch (e) {
+            return sequelizeErrors(e);
+        }
+    }
 }

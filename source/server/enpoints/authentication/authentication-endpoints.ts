@@ -1,6 +1,7 @@
 import {Express} from "express";
 import {bodyPick} from "../../../middleware/utils";
 import {AuthenticationController} from "../../controllers/authentication.controller";
+import {authenticateUser} from "../../../middleware/authenticate";
 
 export class AuthenticationEndpoints {
 
@@ -33,6 +34,21 @@ export class AuthenticationEndpoints {
             const body = bodyPick(['email', 'password'], req.body);
 
             const response = await AuthenticationController.authenticateUser(body);
+
+            res.status(response.code).send(response.data);
+
+        });
+    }
+
+    /**
+     * Endpoint for user logout
+     * @param app
+     */
+    static signOut(app: Express) {
+
+        app.get('/auth/logout', authenticateUser, async (req: any, res) => {
+
+            const response = await AuthenticationController.logoutUser(req.user);
 
             res.status(response.code).send(response.data);
 

@@ -113,11 +113,11 @@ User.init({
     },
     accessToken: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     refreshToken: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     }
 }, config);
 
