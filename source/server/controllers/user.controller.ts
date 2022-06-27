@@ -2,6 +2,7 @@ import {UserService} from "../services/user.service";
 import {createError, sequelizeErrors} from "../errors/errors";
 import User from "../../db/user.model";
 import {Role} from "../../models/role.model";
+import {v4} from "uuid";
 
 export class UserController {
 
@@ -18,7 +19,7 @@ export class UserController {
             user.address = body.address;
             user.phone = body.phone;
 
-            user = await UserService.updateUser(user);
+            user = await UserService.saveUser(user);
             user.role = Role.generateModel(role);
 
             return {data: user, code: 200};
@@ -40,7 +41,16 @@ export class UserController {
                 return createError('CouldNotFindUser', 'Could not find user for given identifier', 404);
             }
 
-            await UserService.deleteUser(user);
+            user.firstName = 'User';
+            user.lastName = 'Deleted';
+            user.email = 'user.deleted-' + user.id + '@ceseat.fr';
+            user.password = '9kd' + v4().toString() + '2daz';
+            user.phone = '+33600000000';
+            user.address = 'User deleted address';
+            user.accessToken = null;
+            user.refreshToken = null;
+
+            await UserService.saveUser(user);
 
             return {data: {success: true}, code: 200};
         } catch (e) {
@@ -73,7 +83,7 @@ export class UserController {
 
             user.password = body.newPassword;
 
-            user = await UserService.updateUser(user);
+            user = await UserService.saveUser(user);
 
             return {data: user, code: 200};
         } catch (e) {

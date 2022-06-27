@@ -21,6 +21,7 @@ class User extends Model {
     password!: string;
     role: Role;
     accessToken: string;
+    refreshToken?: string;
 
     toJSON() {
 
@@ -108,6 +109,14 @@ User.init({
                 args: [6],
             }
         }
+    },
+    accessToken: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    refreshToken: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, config);
 

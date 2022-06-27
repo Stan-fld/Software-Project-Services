@@ -20,7 +20,7 @@ export async function authenticateTransaction(req: any, res, next: any) {
         }
 
         req.userId = data.userId;
-        req.role = data.role;
+        req.role = Role.generateModel(data.role);
         next();
     } catch (e) {
         if (!e.response) {

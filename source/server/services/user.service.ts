@@ -13,19 +13,11 @@ export class UserService {
     }
 
     /**
-     * Service to update a user
+     * Service to save a user
      * @param user
      */
-    static updateUser(user: User): Promise<User> {
+    static saveUser(user: User): Promise<User> {
         return user.save();
-    }
-
-    /**
-     * Service to delete a user
-     * @param user
-     */
-    static deleteUser(user: User): Promise<void> {
-        return user.destroy();
     }
 
     /**
