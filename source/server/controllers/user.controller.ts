@@ -21,7 +21,7 @@ export class UserController {
             user = await UserService.updateUser(user);
             user.role = Role.generateModel(role);
 
-            return {data: {user}, code: 200};
+            return {data: user, code: 200};
         } catch (e) {
             return sequelizeErrors(e);
         }
@@ -75,7 +75,7 @@ export class UserController {
 
             user = await UserService.updateUser(user);
 
-            return {data: {user}, code: 200};
+            return {data: user, code: 200};
         } catch (e) {
             return sequelizeErrors(e);
         }

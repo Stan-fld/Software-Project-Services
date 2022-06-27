@@ -5,8 +5,7 @@
     "database": "projetcesi_authentication_test_db",
     "username": "271246",
     "password": "azertyuio12345678",
-    "dialect": "mysql",
-    "jwt_secret": "TheSecretJWt"
+    "dialect": "mysql"
   },
   "development": {
     "port": 8100,
@@ -14,7 +13,6 @@
     "database": "projetcesi_authentication_db",
     "username": "271246",
     "password": "azertyuio12345678",
-    "dialect": "mysql",
-    "jwt_secret": "TheSecretJWt"
+    "dialect": "mysql"
   }
 }
