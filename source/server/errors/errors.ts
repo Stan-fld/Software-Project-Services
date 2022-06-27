@@ -5,7 +5,7 @@ export function createError(name: string, message: string, code: number) {
 }
 
 
-export function authenticationFailed(message: string, code: any) {
+export function authenticationFailed(message: string, code: number) {
 
     return createError('AuthenticationFailed', message, code);
 }
