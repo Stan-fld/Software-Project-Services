@@ -14,6 +14,8 @@ app.use(express.json());
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 UserEndpoints.updateUser(app);
+UserEndpoints.deleteUser(app);
+UserEndpoints.changePassword(app);
 
 // Handling Errors and 404
 app.use(function (req, res) {

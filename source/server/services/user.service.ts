@@ -21,6 +21,14 @@ export class UserService {
     }
 
     /**
+     * Service to delete a user
+     * @param user
+     */
+    static deleteUser(user: User): Promise<void> {
+        return user.destroy();
+    }
+
+    /**
      * Service to compare a password with user password
      * @param user
      * @param password
