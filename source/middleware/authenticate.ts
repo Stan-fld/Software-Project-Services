@@ -16,7 +16,7 @@ export async function authenticateTransaction(req: any, res, next: any) {
             });
 
         if (!data.isConfirmed) {
-            return res.status(401).send(createError('TransactionNotConfirmed', 'The transaction is not confirmed', 403).data);
+            return res.status(403).send(createError('TransactionNotConfirmed', 'The transaction is not confirmed', 403).data);
         }
 
         req.userId = data.userId;
