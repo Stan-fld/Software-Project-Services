@@ -12,7 +12,7 @@ export const roles = {
 }
 
 export const restauStatus = {
-    open: 'open',
+    opened: 'opened',
     pending: 'pending',
     closed: 'closed',
     list: function () {

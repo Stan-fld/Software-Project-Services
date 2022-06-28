@@ -1,4 +1,5 @@
 import mongoose, {ObjectId, Schema} from "mongoose";
+import {restauCategories} from "../config/enums";
 
 
 export interface IRestaurantCategory {
@@ -9,8 +10,8 @@ export interface IRestaurantCategory {
 const RestaurantCategorySchema: Schema = new Schema({
     name: {
         type: String,
-        required: true,
-        minLength: 2,
+        Enum: restauCategories.list(),
+        required: true
     }
 })
 

@@ -9,10 +9,14 @@ import {RestaurantEndpoints} from "./server/enpoints/restaurant/restaurant-endpo
 const app: Express = express();
 
 app.use(cors);
-app.use(express.json({limit:'2mb'}));
+app.use(express.json({limit: '2mb'}));
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 RestaurantEndpoints.createRestaurant(app);
+RestaurantEndpoints.getRestaurantsOpened(app);
+RestaurantEndpoints.getRestaurants(app);
+RestaurantEndpoints.getRestaurant(app);
+RestaurantEndpoints.getMyRestaurant(app);
 
 // Handling Errors and 404
 app.use(function (req, res) {

@@ -5,6 +5,8 @@ import {Role} from "../../models/role.model";
 import {roles} from "../../config/enums";
 import {RestaurantCategoryService} from "../services/restaurant-category.service";
 import RestaurantCategory from "../../db/restaurant-category";
+import mongoose from "mongoose";
+
 
 export class RestaurantController {
 
@@ -39,6 +41,72 @@ export class RestaurantController {
         } catch (e) {
             return mongooseErrors(e);
         }
+    }
 
+    /**
+     * Controller to get all restaurants opened
+     */
+    static async getRestaurantsOpened() {
+        try {
+            const restaurants = await RestaurantService.findWithStatus();
+
+            return {data: restaurants, code: 200};
+
+        } catch (e) {
+            return mongooseErrors(e);
+        }
+    }
+
+    /**
+     * Controller to get all restaurants
+     */
+    static async getRestaurants() {
+        try {
+            const restaurants = await RestaurantService.findAll();
+
+            return {data: restaurants, code: 200};
+
+        } catch (e) {
+            return mongooseErrors(e);
+        }
+    }
+
+    /**
+     * Controller to get a restaurant for a given id
+     * @param restaurantId
+     */
+    static async getRestaurant(restaurantId?: string) {
+        try {
+            if (!restaurantId || !mongoose.isValidObjectId(restaurantId)) {
+                return createError('InvalidRestaurantId', 'Invalid restaurant id', 400);
+            }
+
+            const restaurant = await RestaurantService.findWithId(restaurantId);
+
+            if (!restaurant) {
+                return createError('CannotFoundRestaurant', 'Cannot found restaurant for given id', 404);
+            }
+
+            return {data: restaurant, code: 200};
+
+        } catch (e) {
+            console.log(e);
+            return mongooseErrors(e);
+        }
+    }
+
+    static async getMyRestaurant(userId: string) {
+        try {
+            const restaurant = await RestaurantService.findWithUserId(userId);
+
+            if (!restaurant) {
+                return createError('CannotFoundRestaurant', 'Cannot found your restaurant', 404);
+            }
+
+            return {data: restaurant, code: 200};
+
+        } catch (e) {
+            return mongooseErrors(e);
+        }
     }
 }
