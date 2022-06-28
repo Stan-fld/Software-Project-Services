@@ -1,17 +1,13 @@
 export function createError(name: string, message: string, code: number) {
 
-    return {data: {name, message}, code: code};
+    return {data: [{name, message}], code: code};
 
 }
 
 
-export function authenticationFailed(message: string, code: any) {
-
-    return createError('AuthenticationFailed', message, code);
-}
-
-export function sequelizeErrors(sequelizeError: any) {
-    const errors = sequelizeError['errors'];
+export function mongooseErrors(mongooseError: any) {
+    const errors = mongooseError['errors'];
+    const code = mongooseError['code'];
 
     if (errors !== null && errors !== undefined) {
 
@@ -19,18 +15,24 @@ export function sequelizeErrors(sequelizeError: any) {
 
         for (let key in errors) {
             if (errors.hasOwnProperty(key)) {
-                let message = errors[key].message.split('.');
-
-                const name = 'SequelizeError ' + errors[key].type;
-                message = message[message.length - 1];
-                const code = errors[key].code || 400;
-                const error = {name, message, code};
+                const name = errors[key].name;
+                const message = errors[key].message;
+                const errorCode = errors[key].code;
+                const error = {name, message, code: errorCode};
                 list.push(error);
             }
         }
 
         return {data: list, code: list[0].code};
+    } else if (code !== null && code !== undefined) {
+
+        const errorModel = {name: '', message: mongooseError['errmsg'], code: mongooseError['code'].toString()};
+
+        return {data: [errorModel], code: mongooseError['code']};
     }
 
-    return {data: {name: 'SequelizeError', message: 'undefined sequelize error', code: 400}, code: 400};
+    return {
+        data: [{name: 'mongooseError', message: 'Undefined mongoose error on restaurant service', code: 400}],
+        code: 400
+    };
 }

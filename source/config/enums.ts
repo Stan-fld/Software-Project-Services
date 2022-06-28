@@ -11,14 +11,26 @@ export const roles = {
     }
 }
 
-export const methods = {
-    get: 'GET',
-    put: 'PUT',
-    patch: 'PATCH',
-    post: 'POST',
-    delete: 'DELETE',
-    option: 'OPTION',
+export const restauStatus = {
+    open: 'open',
+    pending: 'pending',
+    closed: 'closed',
     list: function () {
-        return [this.get, this.put, this.patch, this.post, this.delete, this.option];
+        return [this.open, this.pending, this.closed];
+    }
+}
+
+export const restauCategories = {
+    american: 'american',
+    burger: 'burger',
+    french: 'french',
+    halal: 'halal',
+    italian: 'italian',
+    japanese: 'japanese',
+    pizza: 'pizza',
+    sushi: 'sushi',
+    thai: 'thai',
+    list: function (): string[] {
+        return [this.american, this.burger, this.french, this.halal, this.italian, this.japanese, this.pizza, this.sushi, this.thai];
     }
 }

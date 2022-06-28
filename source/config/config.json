@@ -1,20 +1,11 @@
 {
   "test": {
-    "port": 8000,
-    "host": "mysql-projetcesi.alwaysdata.net",
-    "database": "projetcesi_authentication_test_db",
-    "username": "271246",
-    "password": "azertyuio12345678",
-    "dialect": "mysql",
-    "jwt_secret": "TheSecretJWt"
+    "port": 8200,
+    "host": "mongodb://127.0.0.1:27017/ceseat_db"
   },
   "development": {
-    "port": 8000,
-    "host": "mysql-projetcesi.alwaysdata.net",
-    "database": "projetcesi_authentication_db",
-    "username": "271246",
-    "password": "azertyuio12345678",
-    "dialect": "mysql",
-    "jwt_secret": "TheSecretJWt"
+    "port": 8200,
+    "host": "mongodb+srv://CesiSoftwareProject:VX4HGy7MYgJe7I3C@clustersoftwareproject.vqdf5.mongodb.net/ceseat_db",
+    "database": "ceseat_db"
   }
 }
