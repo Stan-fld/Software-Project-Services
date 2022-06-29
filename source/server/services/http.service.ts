@@ -22,16 +22,25 @@ export class HttpService {
     /**
      * Service to request service restaurant to change status to opened.
      */
-    openUserRestaurant(clientId: string): Promise<any> {
-        return this.http.post('transaction/OR', {userId: clientId});
+    openUserRestaurant(userId: string): Promise<any> {
+        return this.http.post('transaction/OR', {userId: userId});
+    }
+
+    /**
+     * Service to request service restaurant to change status to closed.
+     */
+    closeMyRestaurant(): Promise<any> {
+        return this.http.post('transaction/DR');
     }
 
     /**
      * Service to request service restaurant to change status to allowed.
      */
-    allowUserDeliverer(clientId: string): Promise<any> {
-        return this.http.post('transaction/AD', {userId: clientId});
+    allowUserDeliverer(userId: string): Promise<any> {
+        return this.http.post('transaction/AD', {userId: userId});
     }
 
-
+    revokeMyDelivererAccount(): Promise<any> {
+        return this.http.post('transaction/DD');
+    }
 }

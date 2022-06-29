@@ -23,10 +23,10 @@ export class UserController {
                 return createError('CouldNotFindUser', 'Could not find user for given identifier', 404);
             }
 
-            user.firstName = body.firstName;
-            user.lastName = body.lastName;
-            user.address = body.address;
-            user.phone = body.phone;
+            user.firstName = body.firstName || user.firstName;
+            user.lastName = body.lastName || user.lastName;
+            user.address = body.address || user.address;
+            user.phone = body.phone || user.phone;
 
             user = await UserService.saveUser(user);
             user.role = role;
@@ -40,16 +40,49 @@ export class UserController {
     /**
      * Controller to delete user
      * @param userId
+     * @param role
      */
-    static async deleteUser(userId: string) {
-        try {
-            const user: User = await UserService.findWithId(userId);
+    static async deleteUser(userId: string, role: Role) {
+        let user: User;
 
-            //TODO: Check user role and delete user data in mongodb.
+        try {
+            user = await UserService.findWithId(userId);
             if (!user) {
                 return createError('CouldNotFindUser', 'Could not find user for given identifier', 404);
             }
+        } catch (e) {
+            return sequelizeErrors(e);
+        }
 
+        try {
+            let data;
+            switch (role.name) {
+                case roles.restau:
+                    data = (await new HttpService(user.accessToken).closeMyRestaurant()).data.data;
+                    if (!data.success) {
+                        return createError('CouldNotCloseRestaurant', 'Could not close your restaurant', 500);
+                    }
+                    break;
+
+                case roles.deliverer:
+                    data = (await new HttpService(user.accessToken).revokeMyDelivererAccount()).data.data;
+                    if (!data.success) {
+                        return createError('CouldNotRevokeDelivererAccount', 'Could not revoke your deliverer account', 500);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        } catch (e) {
+            if (!e.response) {
+                return createError('InternalServerError', 'Internal server error on user service', 500);
+            }
+
+            return {data: e.response.data.data, code: e.response.status};
+        }
+
+        try {
             user.firstName = 'User';
             user.lastName = 'Deleted';
             user.email = 'user.deleted-' + user.id + '@ceseat.fr';

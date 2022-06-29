@@ -15,7 +15,7 @@ export class UserEndpoints {
 
             const body = bodyPick(['firstName', 'lastName', 'address', 'phone'], req.body);
 
-            const response = await UserController.updateUser(req.user.id, req.user.role, body);
+            const response = await UserController.updateUser(req.user, req.user.role, body);
 
             res.status(response.code).send(response.data);
 
@@ -30,7 +30,7 @@ export class UserEndpoints {
 
         app.delete('/users/deleteUser', authenticateTransaction, async (req: any, res) => {
 
-            const response = await UserController.deleteUser(req.user.id);
+            const response = await UserController.deleteUser(req.user.id, req.user.role);
 
             res.status(response.code).send(response.data);
 
