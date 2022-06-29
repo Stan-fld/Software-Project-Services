@@ -8,7 +8,7 @@ export class RestaurantService {
      * @param userId
      */
     static findWithUserId(userId: string) {
-        return Restaurant.findOne({'user.id': userId}).populate('restaurantCategory');
+        return Restaurant.findOne({userId: userId}).populate('restaurantCategory');
     }
 
     /**

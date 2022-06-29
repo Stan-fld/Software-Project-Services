@@ -13,10 +13,41 @@ export class RestaurantEndpoints {
 
         app.post('/restaurants/createRestaurant', authenticateTransaction, async (req: any, res) => {
 
-            const body = bodyPick(['name', 'desc', 'address', 'phone', 'siret', 'img', 'deliveryCharges', 'user', 'restaurantCategoryId'], req.body);
-            body.user = req.user;
+            const body = bodyPick(['name', 'desc', 'address', 'phone', 'siret', 'img', 'deliveryCharges', 'userId', 'restaurantCategoryId'], req.body);
+            body.userId = req.user.id;
 
             const response = await RestaurantController.createRestaurant(body, req.user.role);
+
+            res.status(response.code).send(response.data);
+
+        });
+    }
+
+    /**
+     * Endpoint to update restaurant
+     * @param app
+     */
+    static updateRestaurant(app: Express) {
+
+        app.patch('/restaurants/updateMyRestaurant', authenticateTransaction, async (req: any, res) => {
+
+            const body = bodyPick(['name', 'desc', 'address', 'phone', 'siret', 'img', 'deliveryCharges', 'restaurantCategoryId'], req.body);
+
+            const response = await RestaurantController.updateRestaurant(req.user, body);
+
+            res.status(response.code).send(response.data);
+        });
+    }
+
+    /**
+     * Endpoint to close user restaurant
+     * @param app
+     */
+    static closeMyRestaurant(app: Express) {
+
+        app.patch('/restaurants/closeMyRestaurant', authenticateTransaction, async (req: any, res) => {
+
+            const response = await RestaurantController.closeMyRestaurant(req.user.id);
 
             res.status(response.code).send(response.data);
 
@@ -94,6 +125,10 @@ export class RestaurantEndpoints {
         });
     }
 
+    /**
+     * Endpoint to get restaurant categories
+     * @param app
+     */
     static getRestaurantCategories(app: Express) {
 
         app.get('/restaurants/getRestaurantCategories', authenticateTransaction, async (req: any, res) => {

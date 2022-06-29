@@ -6,6 +6,7 @@ import {restauStatus, roles} from "../../config/enums";
 import {RestaurantCategoryService} from "../services/restaurant-category.service";
 import RestaurantCategory from "../../db/restaurant-category";
 import mongoose from "mongoose";
+import {User} from "../../models/user.model";
 
 
 export class RestaurantController {
@@ -17,7 +18,7 @@ export class RestaurantController {
      */
     static async createRestaurant(body: IRestaurant, role: Role) {
         try {
-            let restaurant: Restaurant = await RestaurantService.findWithUserId(body.user.id);
+            let restaurant: Restaurant = await RestaurantService.findWithUserId(body.userId);
 
             if (restaurant) {
                 return createError('RestaurantAlreadyExists', 'Restaurant already exists for this user', 400);
@@ -44,6 +45,72 @@ export class RestaurantController {
     }
 
     /**
+     * Controller to update a restaurant
+     * @param user
+     * @param body
+     */
+    static async updateRestaurant(user: User, body: IRestaurant) {
+
+        try {
+            let restaurant: Restaurant = await RestaurantService.findWithUserId(user.id);
+
+            if (!restaurant) {
+                return createError('CannotFoundRestaurant', 'Cannot found your restaurant', 404);
+            }
+
+            const restaurantCategory: RestaurantCategory = await RestaurantCategoryService.findWithId(body.restaurantCategoryId);
+
+            if (!restaurantCategory) {
+                return createError('CannotFoundRestaurantCategory', 'Cannot found restaurant category for given id', 404);
+            }
+
+            restaurant.name = body.name || restaurant.name;
+            restaurant.desc = body.desc || restaurant.desc;
+            restaurant.address = body.address || restaurant.address;
+            restaurant.phone = body.phone || restaurant.phone;
+            restaurant.siret = body.siret || restaurant.siret;
+            restaurant.img = body.img || restaurant.img;
+            restaurant.deliveryCharges = body.deliveryCharges || restaurant.deliveryCharges;
+            restaurant.restaurantCategory = restaurantCategory || restaurant.restaurantCategory;
+
+            restaurant = await RestaurantService.saveRestaurant(restaurant);
+
+            return {data: restaurant, code: 200};
+
+        } catch (e) {
+            return mongooseErrors(e);
+        }
+    }
+
+    /**
+     * Controller to close a user restaurant
+     * @param userId
+     */
+    static async closeMyRestaurant(userId: string) {
+        try {
+            let restaurant: Restaurant = await RestaurantService.findWithUserId(userId);
+
+            if (!restaurant) {
+                return createError('CannotFoundRestaurant', 'Cannot found your restaurant', 404);
+            }
+
+            restaurant.name = 'Restaurant Closed'
+            restaurant.desc = 'This restaurant is closed';
+            restaurant.address = 'Restaurant closed address';
+            restaurant.phone = '+33600000000';
+            restaurant.siret = '12345678912345'
+            restaurant.deliveryCharges = 0;
+            restaurant.status = restauStatus.closed;
+
+            await RestaurantService.saveRestaurant(restaurant);
+
+            return {data: {success: true}, code: 200};
+        } catch (e) {
+            return mongooseErrors(e);
+        }
+    }
+
+    /**
      * Controller to open a restaurant
      * @param body
      */
@@ -52,7 +119,7 @@ export class RestaurantController {
             const restaurant: Restaurant = await RestaurantService.findWithUserId(body.userId);
 
             if (!restaurant) {
-                return createError('CannotFoundRestaurant', 'Cannot found your restaurant', 404);
+                return createError('CannotFoundRestaurant', 'Cannot found restaurant', 404);
             }
 
             restaurant.status = restauStatus.opened;
@@ -135,6 +202,9 @@ export class RestaurantController {
         }
     }
 
+    /**
+     * Controller to get restaurant categories
+     */
     static async getRestaurantCategories() {
         try {
             const restaurantCategories: RestaurantCategory[] = await RestaurantCategoryService.findAll();
