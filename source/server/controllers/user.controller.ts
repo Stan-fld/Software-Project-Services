@@ -130,7 +130,7 @@ export class UserController {
                 return createError('CouldNotFindAdmin', 'Could not find admin for given identifier', 404);
             }
 
-           return  await this.roleChangeAction(user, role, adminToken);
+            return await this.roleChangeAction(user, role, adminToken);
 
         } catch (e) {
             return sequelizeErrors(e);
@@ -147,19 +147,19 @@ export class UserController {
      */
     private static async roleChangeAction(user: User, role: Role, adminToken: string) {
         try {
-            let response;
+            let data;
             switch (role.name) {
                 case roles.restau:
-                    response = await new HttpService(adminToken).openUserRestaurant(user.id);
-                    if (!response.data.success) {
+                    data = (await new HttpService(adminToken).openUserRestaurant(user.id)).data.data;
+                    if (!data.success) {
                         return createError('CouldNotOpenRestaurant', 'Could not open restaurant', 400)
                     }
                     break;
 
                 case roles.deliverer:
-                    response = await new HttpService(adminToken).allowUserDeliverer(user.id);
+                    data = (await new HttpService(adminToken).allowUserDeliverer(user.id)).data.data;
 
-                    if (!response.data.success) {
+                    if (!data.success) {
                         return createError('CouldNotAllowDeliverer', 'Could not allow deliverer', 400)
                     }
                     break;
@@ -175,7 +175,7 @@ export class UserController {
             return {data: e.response.data.data, code: e.response.status};
         }
 
-        try{
+        try {
             user.roleId = role.id;
             user = await UserService.saveUser(user);
             user.role = role;
