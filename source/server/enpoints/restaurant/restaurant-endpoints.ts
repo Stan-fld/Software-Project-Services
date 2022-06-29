@@ -93,4 +93,13 @@ export class RestaurantEndpoints {
             res.status(response.code).send(response.data);
         });
     }
+
+    static getRestaurantCategories(app: Express) {
+
+        app.get('/restaurants/getRestaurantCategories', authenticateTransaction, async (req: any, res) => {
+            const response = await RestaurantController.getRestaurantCategories();
+
+            res.status(response.code).send(response.data);
+        });
+    }
 }

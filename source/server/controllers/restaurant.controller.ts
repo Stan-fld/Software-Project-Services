@@ -134,4 +134,16 @@ export class RestaurantController {
             return mongooseErrors(e);
         }
     }
+
+    static async getRestaurantCategories() {
+        try {
+            const restaurantCategories: RestaurantCategory[] = await RestaurantCategoryService.findAll();
+
+            return {data: restaurantCategories, code: 200};
+
+        } catch (e) {
+            return mongooseErrors(e);
+        }
+
+    }
 }

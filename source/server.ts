@@ -18,6 +18,7 @@ RestaurantEndpoints.getRestaurantsOpened(app);
 RestaurantEndpoints.getRestaurants(app);
 RestaurantEndpoints.getRestaurant(app);
 RestaurantEndpoints.getMyRestaurant(app);
+RestaurantEndpoints.getRestaurantCategories(app);
 
 // Handling Errors and 404
 app.use(function (req, res) {

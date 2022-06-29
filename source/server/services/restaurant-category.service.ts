@@ -9,4 +9,11 @@ export class RestaurantCategoryService {
     static findWithId(restaurantCategoryId: string) {
         return RestaurantCategory.findOne({_id: restaurantCategoryId});
     }
+
+    /**
+     * Service to find all restaurant categories.
+     */
+    static findAll(){
+        return RestaurantCategory.find({});
+    }
 }
