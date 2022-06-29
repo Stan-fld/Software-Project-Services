@@ -100,7 +100,7 @@ export class TransactionTokenController {
                 return createError('UserRoleMismatch', 'User role does not match transaction role', 403);
             }
 
-            return {data: {isConfirmed: true, userId: user.id, role: user.role}, code: 200};
+            return {data: {isConfirmed: true, user: user}, code: 200};
 
         } catch (e) {
             const err = sequelizeErrors(e);
