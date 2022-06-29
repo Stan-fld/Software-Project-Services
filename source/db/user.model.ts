@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import {bodyPick} from "../middleware/utils";
 import sequelize from "./setup/db-mysql-setup";
 import {DataTypes, Model} from "sequelize";
-import {Role} from "../models/role.model";
+import Role from "./role.model";
 
 
 const config = {
@@ -19,6 +19,7 @@ class User extends Model {
     address!: string;
     phone!: string;
     password!: string;
+    roleId: string;
     role: Role;
     accessToken: string;
     refreshToken?: string;
@@ -119,6 +120,9 @@ User.init({
         allowNull: true
     }
 }, config);
+
+Role.hasMany(User, {foreignKey: 'roleId', as: 'users'});
+User.belongsTo(Role, {foreignKey: 'roleId', as: 'role'});
 
 User.beforeSave((user: User) => {
     if (user.changed('password')) {

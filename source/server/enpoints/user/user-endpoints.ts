@@ -37,6 +37,10 @@ export class UserEndpoints {
         });
     }
 
+    /**
+     * Endpoint to change user password
+     * @param app
+     */
     static changePassword(app: Express) {
 
         app.patch('/users/changeUserPassword', authenticateTransaction, async (req: any, res) => {
@@ -44,6 +48,22 @@ export class UserEndpoints {
             const body = bodyPick(['oldPassword', 'newPassword'], req.body);
 
             const response = await UserController.changePassword(req.userId, body);
+
+            res.status(response.code).send(response.data);
+
+        });
+    }
+
+    /**
+     * Endpoint to change user role
+     * @param app
+     */
+    static changeUserRole(app: Express) {
+
+        app.patch('/users/changeUserRole', authenticateTransaction, async (req: any, res) => {
+            const body = bodyPick(['roleName', 'userId'], req.body);
+
+            const response = await UserController.changeUserRole(req.userId, body);
 
             res.status(response.code).send(response.data);
 

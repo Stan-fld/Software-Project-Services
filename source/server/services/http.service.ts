@@ -1,21 +1,37 @@
 import axios, {AxiosInstance} from "axios";
 
-export abstract class HttpService {
+export class HttpService {
 
     http: AxiosInstance
 
     /**
      * HttpService constructor
-     * @param transactionToken
+     * @param userToken
      * @protected
      */
-    protected constructor(transactionToken: string) {
+    constructor(userToken: string) {
         this.http = axios.create({
             baseURL: 'http://nginx:80/',
             headers: {
                 'Content-Type': 'application/json',
-                'trx-auth': transactionToken
+                'x-auth': userToken
             }
         });
     }
+
+    /**
+     * Service to request service restaurant to change status to opened.
+     */
+    openUserRestaurant(clientId: string): Promise<any> {
+        return this.http.post('transaction/OR', {userId: clientId});
+    }
+
+    /**
+     * Service to request service restaurant to change status to allowed.
+     */
+    allowUserDeliverer(clientId: string): Promise<any> {
+        return this.http.post('transaction/AD', {userId: clientId});
+    }
+
+
 }

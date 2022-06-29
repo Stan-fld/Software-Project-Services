@@ -14,6 +14,7 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 UserEndpoints.updateUser(app);
 UserEndpoints.deleteUser(app);
 UserEndpoints.changePassword(app);
+UserEndpoints.changeUserRole(app);
 
 // Handling Errors and 404
 app.use(function (req, res) {

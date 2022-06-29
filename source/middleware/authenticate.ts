@@ -1,6 +1,6 @@
 import axios from "axios";
 import {createError} from "../server/errors/errors";
-import {Role} from "../models/role.model";
+import Role from "../db/role.model";
 
 export async function authenticateTransaction(req: any, res, next: any) {
 
@@ -20,7 +20,7 @@ export async function authenticateTransaction(req: any, res, next: any) {
         }
 
         req.userId = data.userId;
-        req.role = Role.generateModel(data.role);
+        req.role = data.role;
         next();
     } catch (e) {
         if (!e.response) {
