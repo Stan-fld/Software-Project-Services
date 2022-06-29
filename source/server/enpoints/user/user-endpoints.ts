@@ -15,7 +15,7 @@ export class UserEndpoints {
 
             const body = bodyPick(['firstName', 'lastName', 'address', 'phone'], req.body);
 
-            const response = await UserController.updateUser(req.userId, req.role, body);
+            const response = await UserController.updateUser(req.user.id, req.user.role, body);
 
             res.status(response.code).send(response.data);
 
@@ -30,7 +30,7 @@ export class UserEndpoints {
 
         app.delete('/users/deleteUser', authenticateTransaction, async (req: any, res) => {
 
-            const response = await UserController.deleteUser(req.userId);
+            const response = await UserController.deleteUser(req.user.id);
 
             res.status(response.code).send(response.data);
 
@@ -47,7 +47,7 @@ export class UserEndpoints {
 
             const body = bodyPick(['oldPassword', 'newPassword'], req.body);
 
-            const response = await UserController.changePassword(req.userId, body);
+            const response = await UserController.changePassword(req.user.id, body);
 
             res.status(response.code).send(response.data);
 
@@ -63,7 +63,7 @@ export class UserEndpoints {
         app.patch('/users/changeUserRole', authenticateTransaction, async (req: any, res) => {
             const body = bodyPick(['roleName', 'userId'], req.body);
 
-            const response = await UserController.changeUserRole(req.userId, body);
+            const response = await UserController.changeUserRole(req.user.id, body);
 
             res.status(response.code).send(response.data);
 
