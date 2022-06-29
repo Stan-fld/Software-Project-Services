@@ -13,6 +13,7 @@ app.use(express.json({limit: '2mb'}));
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 RestaurantEndpoints.createRestaurant(app);
+RestaurantEndpoints.openRestaurant(app);
 RestaurantEndpoints.getRestaurantsOpened(app);
 RestaurantEndpoints.getRestaurants(app);
 RestaurantEndpoints.getRestaurant(app);

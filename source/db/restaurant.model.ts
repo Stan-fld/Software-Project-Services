@@ -70,7 +70,7 @@ const RestaurantSchema = new mongoose.Schema({
         ref: 'RestaurantCategory',
         required: true,
     }
-});
+}, {timestamps: true});
 
 export default class Restaurant extends mongoose.model<IRestaurant>('Restaurant', RestaurantSchema) {
 }

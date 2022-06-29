@@ -24,6 +24,22 @@ export class RestaurantEndpoints {
     }
 
     /**
+     * Endpoint to open restaurant
+     * @param app
+     */
+    static openRestaurant(app: Express) {
+
+        app.patch('/restaurants/openRestaurant', authenticateTransaction, async (req: any, res) => {
+            const body = bodyPick(['userId'], req.body);
+
+            const response = await RestaurantController.openRestaurant(body);
+
+            res.status(response.code).send(response.data);
+
+        });
+    }
+
+    /**
      * Endpoint to get all restaurants opened
      * @param app
      */

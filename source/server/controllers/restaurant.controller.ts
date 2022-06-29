@@ -2,7 +2,7 @@ import Restaurant, {IRestaurant} from "../../db/restaurant.model";
 import {RestaurantService} from "../services/restaurant.service";
 import {createError, mongooseErrors} from "../errors/errors";
 import {Role} from "../../models/role.model";
-import {roles} from "../../config/enums";
+import {restauStatus, roles} from "../../config/enums";
 import {RestaurantCategoryService} from "../services/restaurant-category.service";
 import RestaurantCategory from "../../db/restaurant-category";
 import mongoose from "mongoose";
@@ -38,6 +38,28 @@ export class RestaurantController {
 
             return {data: restaurant, code: 200};
 
+        } catch (e) {
+            return mongooseErrors(e);
+        }
+    }
+
+    /**
+     * Controller to open a restaurant
+     * @param body
+     */
+    static async openRestaurant(body: { userId: string }) {
+        try {
+            const restaurant: Restaurant = await RestaurantService.findWithUserId(body.userId);
+
+            if (!restaurant) {
+                return createError('CannotFoundRestaurant', 'Cannot found your restaurant', 404);
+            }
+
+            restaurant.status = restauStatus.opened;
+
+            await RestaurantService.saveRestaurant(restaurant);
+
+            return {data: {success: true}, code: 200};
         } catch (e) {
             return mongooseErrors(e);
         }
@@ -90,11 +112,14 @@ export class RestaurantController {
             return {data: restaurant, code: 200};
 
         } catch (e) {
-            console.log(e);
             return mongooseErrors(e);
         }
     }
 
+    /**
+     * Controller to get user restaurant
+     * @param userId
+     */
     static async getMyRestaurant(userId: string) {
         try {
             const restaurant = await RestaurantService.findWithUserId(userId);
