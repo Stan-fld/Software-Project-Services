@@ -13,7 +13,12 @@ export interface IRestaurant {
     img: string;
     deliveryCharges: number;
     status: string;
-    userId: string;
+    user: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+    };
     restaurantCategoryId?: string;
     restaurantCategory: RestaurantCategory;
 }
@@ -60,10 +65,25 @@ const RestaurantSchema = new mongoose.Schema({
         default: restauStatus.pending,
         required: true,
     },
-    userId: {
-        type: String,
-        required: true,
-        unique: true
+    user: {
+        id: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        firstName: {
+            type: String,
+            required: true
+        },
+        lastName: {
+            type: String,
+            required: true
+        },
+        email : {
+            type: String,
+            required: true,
+            unique: true
+        }
     },
     restaurantCategory: {
         type: mongoose.Schema.Types.ObjectId,

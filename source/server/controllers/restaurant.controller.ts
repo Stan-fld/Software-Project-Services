@@ -17,7 +17,7 @@ export class RestaurantController {
      */
     static async createRestaurant(body: IRestaurant, role: Role) {
         try {
-            let restaurant: Restaurant = await RestaurantService.findWithUserId(body.userId);
+            let restaurant: Restaurant = await RestaurantService.findWithUserId(body.user.id);
 
             if (restaurant) {
                 return createError('RestaurantAlreadyExists', 'Restaurant already exists for this user', 400);

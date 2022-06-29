@@ -13,10 +13,10 @@ export class RestaurantEndpoints {
 
         app.post('/restaurants/createRestaurant', authenticateTransaction, async (req: any, res) => {
 
-            const body = bodyPick(['name', 'desc', 'address', 'phone', 'siret', 'img', 'deliveryCharges', 'userId', 'restaurantCategoryId'], req.body);
-            body.userId = req.userId;
+            const body = bodyPick(['name', 'desc', 'address', 'phone', 'siret', 'img', 'deliveryCharges', 'user', 'restaurantCategoryId'], req.body);
+            body.user = req.user;
 
-            const response = await RestaurantController.createRestaurant(body, req.role);
+            const response = await RestaurantController.createRestaurant(body, req.user.role);
 
             res.status(response.code).send(response.data);
 
@@ -88,7 +88,7 @@ export class RestaurantEndpoints {
     static getMyRestaurant(app: Express) {
 
         app.get('/restaurants/getMyRestaurant', authenticateTransaction, async (req: any, res) => {
-            const response = await RestaurantController.getMyRestaurant(req.userId);
+            const response = await RestaurantController.getMyRestaurant(req.user.id);
 
             res.status(response.code).send(response.data);
         });
