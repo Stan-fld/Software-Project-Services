@@ -17,7 +17,7 @@ export class RestaurantController {
      */
     static async createRestaurant(body: IRestaurant, role: Role) {
         try {
-            let restaurant = await RestaurantService.findWithUserId(body.userId);
+            let restaurant: Restaurant = await RestaurantService.findWithUserId(body.userId);
 
             if (restaurant) {
                 return createError('RestaurantAlreadyExists', 'Restaurant already exists for this user', 400);
@@ -70,7 +70,7 @@ export class RestaurantController {
      */
     static async getRestaurantsOpened() {
         try {
-            const restaurants = await RestaurantService.findWithStatus();
+            const restaurants: Restaurant[] = await RestaurantService.findWithStatus();
 
             return {data: restaurants, code: 200};
 
@@ -84,7 +84,7 @@ export class RestaurantController {
      */
     static async getRestaurants() {
         try {
-            const restaurants = await RestaurantService.findAll();
+            const restaurants: Restaurant[] = await RestaurantService.findAll();
 
             return {data: restaurants, code: 200};
 
@@ -103,7 +103,7 @@ export class RestaurantController {
                 return createError('InvalidRestaurantId', 'Invalid restaurant id', 400);
             }
 
-            const restaurant = await RestaurantService.findWithId(restaurantId);
+            const restaurant: Restaurant = await RestaurantService.findWithId(restaurantId);
 
             if (!restaurant) {
                 return createError('CannotFoundRestaurant', 'Cannot found restaurant for given id', 404);
@@ -122,7 +122,7 @@ export class RestaurantController {
      */
     static async getMyRestaurant(userId: string) {
         try {
-            const restaurant = await RestaurantService.findWithUserId(userId);
+            const restaurant: Restaurant = await RestaurantService.findWithUserId(userId);
 
             if (!restaurant) {
                 return createError('CannotFoundRestaurant', 'Cannot found your restaurant', 404);

@@ -38,6 +38,6 @@ export class RestaurantService {
      * Service to find all restaurants.
      */
     static findAll() {
-        return Restaurant.find();
+        return Restaurant.find({});
     }
 }
