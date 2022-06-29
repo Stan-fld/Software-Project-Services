@@ -10,9 +10,9 @@ export class TransactionTokenService {
      * Service to create a transaction token for given transaction and user
      * @param transaction
      * @param user
-     * @param transactionToken
      */
-    static createTransactionToken(transactionToken: TransactionToken, transaction: Transaction, user: User): Promise<TransactionToken> {
+    static createTransactionToken(transaction: Transaction, user: User): Promise<TransactionToken> {
+        const transactionToken = new TransactionToken();
 
         transactionToken.id = v4();
         transactionToken.userId = user.id;

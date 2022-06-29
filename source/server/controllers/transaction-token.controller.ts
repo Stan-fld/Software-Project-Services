@@ -32,13 +32,7 @@ export class TransactionTokenController {
                 return createError('CouldNotFindService', 'Could not find transaction services for given code and user role', 404);
             }
 
-            let transactionToken: TransactionToken = await TransactionTokenService.findWithUserId(user.id);
-
-            if (!transactionToken) {
-                transactionToken = new TransactionToken();
-            }
-
-            transactionToken = await TransactionTokenService.createTransactionToken(transactionToken, transaction, user);
+            const transactionToken = await TransactionTokenService.createTransactionToken(transaction, user);
 
             return {data: {transaction, transactionToken}, code: 201};
         } catch (e) {

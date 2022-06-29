@@ -38,7 +38,7 @@ TransactionToken.init({
         allowNull: false
     }
 }, config);
-User.hasOne(TransactionToken, {foreignKey: 'userId', as: 'transactionToken'});
+User.hasMany(TransactionToken, {foreignKey: 'userId', as: 'transactionToken'});
 TransactionToken.belongsTo(User, {foreignKey: 'userId', as: 'user'});
 
 Transaction.hasMany(TransactionToken, {foreignKey: 'transactionId', as: 'transactionTokens'});
