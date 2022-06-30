@@ -1,10 +1,10 @@
 {
   "test": {
-    "port": 8200,
+    "port": 8400,
     "host": "mongodb://127.0.0.1:27017/ceseat_db"
   },
   "development": {
-    "port": 8200,
+    "port": 8400,
     "host": "mongodb+srv://CesiSoftwareProject:VX4HGy7MYgJe7I3C@clustersoftwareproject.vqdf5.mongodb.net/ceseat_db",
     "database": "ceseat_db"
   }

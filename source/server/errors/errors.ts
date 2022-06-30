@@ -32,7 +32,7 @@ export function mongooseErrors(mongooseError: any) {
     }
 
     return {
-        data: [{name: 'mongooseError', message: 'Undefined mongoose error on restaurant service', code: 400}],
+        data: [{name: 'mongooseError', message: 'Undefined mongoose error on deliverer service', code: 400}],
         code: 400
     };
 }

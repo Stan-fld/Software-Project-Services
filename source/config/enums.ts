@@ -11,10 +11,10 @@ export const roles = {
     }
 }
 
-export const restauStatus = {
-    opened: 'opened',
+export const delivererStatus = {
+    allowed: 'allowed',
     pending: 'pending',
-    closed: 'closed',
+    revoked: 'revoked',
     list: function () {
         return [this.open, this.pending, this.closed];
     }
