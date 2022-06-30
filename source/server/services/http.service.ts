@@ -34,12 +34,15 @@ export class HttpService {
     }
 
     /**
-     * Service to request service restaurant to change status to allowed.
+     * Service to request service deliverer to change status to allowed.
      */
     allowUserDeliverer(userId: string): Promise<any> {
         return this.http.post('transaction/AD', {userId: userId});
     }
 
+    /**
+     * Service to request service deliverer to change status to revoked.
+     */
     revokeMyDelivererAccount(): Promise<any> {
         return this.http.post('transaction/DD');
     }
