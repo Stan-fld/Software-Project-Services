@@ -1,8 +1,14 @@
 import mongoose from "mongoose";
 
-const DelivererSchema = new mongoose.Schema({});
+const DelivererSchema = new mongoose.Schema({
+    userId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+});
 
-export default class Deliverer extends mongoose.model('Restaurant', DelivererSchema) {
+export default class Deliverer extends mongoose.model('Deliverer', DelivererSchema) {
 }
 
 

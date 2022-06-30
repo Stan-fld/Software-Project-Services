@@ -12,6 +12,7 @@ export interface IOrder {
     deliverer?: Deliverer;
     restaurantId?: string;
     restaurant: Restaurant;
+    itemsId: string[];
     items: Item[];
     status: number
 }
@@ -24,7 +25,6 @@ const OrderSchema = new mongoose.Schema({
     deliverer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Deliverer',
-        required: true,
         default: null
     },
     restaurant: {
@@ -38,7 +38,7 @@ const OrderSchema = new mongoose.Schema({
         required: true
     }],
     status: {
-        type: String,
+        type: Number,
         Enum: orderStatus.list(),
         default: orderStatus.pending,
         required: true,

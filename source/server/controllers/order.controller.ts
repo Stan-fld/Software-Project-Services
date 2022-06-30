@@ -8,6 +8,8 @@ import {OrderService} from "../services/order.service";
 import {User} from "../../models/user.model";
 import {DelivererService} from "../services/deliverer.service";
 import Deliverer from "../../db/deliverer.model";
+import Item from "../../db/item.model";
+import {ItemService} from "../services/item.service";
 
 
 export class OrderController {
@@ -22,8 +24,22 @@ export class OrderController {
 
             let restaurant: Restaurant = await RestaurantService.findWithId(body.restaurantId);
 
-            if (restaurant) {
-                return createError('RestaurantAlreadyExists', 'Restaurant already exists for this user', 400);
+            if (!restaurant) {
+                return createError('CouldNotFindRestaurant', 'Could not find the restaurant', 404);
+            }
+
+            const items: Item[] = [];
+
+            for (const itemId of body.itemsId) {
+                let item = await ItemService.findWithIdsAndRestaurant(itemId, restaurant);
+                if (!item) {
+                    return createError('CouldNotFindItem', 'Could not find once item', 404);
+                }
+                items.push(item);
+            }
+
+            if (items.length !== body.itemsId.length) {
+                return createError('CouldNotFindItems', 'Could not find all the items', 404);
             }
 
             if (role.name !== roles.client) {
@@ -33,6 +49,8 @@ export class OrderController {
             body.restaurant = restaurant;
             body.status = orderStatus.pending;
             body.deliverer = null;
+            body.items = items;
+
             const order: Order = await OrderService.saveOrder(new Order(body));
 
             return {data: order, code: 200};

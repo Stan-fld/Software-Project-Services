@@ -13,7 +13,7 @@ export default class OrderEndpoints {
 
         app.post('/orders/order', authenticateTransaction, async (req: any, res) => {
 
-            const body = bodyPick(['deliverer', 'restaurantId', 'items', 'status'], req.body);
+            const body = bodyPick(['deliverer', 'restaurantId', 'itemsId', 'status'], req.body);
             body.clientId = req.user.id;
 
             const response = await OrderController.createOrder(body, req.user.role);

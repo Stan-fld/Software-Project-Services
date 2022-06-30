@@ -23,12 +23,12 @@ export function mongooseErrors(mongooseError: any) {
             }
         }
 
-        return {data: list, code: list[0].code};
+        return {data: list, code: list[0].code || 400};
     } else if (code !== null && code !== undefined) {
 
         const errorModel = {name: '', message: mongooseError['errmsg'], code: mongooseError['code'].toString()};
 
-        return {data: [errorModel], code: mongooseError['code']};
+        return {data: [errorModel], code: mongooseError['code'] || 400};
     }
 
     return {
