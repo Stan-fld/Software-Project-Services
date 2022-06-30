@@ -3,7 +3,7 @@ import {authenticateTransaction} from "../../../middleware/authenticate";
 import {bodyPick} from "../../../middleware/utils";
 import {RestaurantController} from "../../controllers/restaurant.controller";
 
-export class RestaurantEndpoints {
+export default class RestaurantEndpoints {
 
     /**
      * Endpoint to create a restaurant

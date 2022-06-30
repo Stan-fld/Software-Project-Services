@@ -4,9 +4,9 @@ import {createError, mongooseErrors} from "../errors/errors";
 import {Role} from "../../models/role.model";
 import {restauStatus, roles} from "../../config/enums";
 import {RestaurantCategoryService} from "../services/restaurant-category.service";
-import RestaurantCategory from "../../db/restaurant-category";
 import mongoose from "mongoose";
 import {User} from "../../models/user.model";
+import RestaurantCategory from "../../db/restaurant.category.model";
 
 
 export class RestaurantController {

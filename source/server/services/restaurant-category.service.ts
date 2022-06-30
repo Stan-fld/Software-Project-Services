@@ -1,4 +1,5 @@
-import RestaurantCategory from "../../db/restaurant-category";
+import RestaurantCategory from "../../db/restaurant.category.model";
+
 
 export class RestaurantCategoryService {
 

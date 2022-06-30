@@ -1,6 +1,6 @@
 import mongoose, {ObjectId} from "mongoose";
-import RestaurantCategory from "./restaurant-category";
 import {restauStatus} from "../config/enums";
+import RestaurantCategory from "./restaurant.category.model";
 
 
 export interface IRestaurant {

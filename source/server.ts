@@ -3,7 +3,8 @@ import express, {Express} from "express";
 import methodOverride from "method-override";
 import {cors} from "./middleware/cors"
 import './db/setup/db-mongoose-setup';
-import {RestaurantEndpoints} from "./server/enpoints/restaurant/restaurant-endpoints";
+import RestaurantEndpoints from "./server/enpoints/restaurant/restaurant-endpoints";
+import ItemEndpoints from "./server/enpoints/item/item-endpoints";
 
 
 const app: Express = express();
@@ -21,6 +22,13 @@ RestaurantEndpoints.getRestaurants(app);
 RestaurantEndpoints.getRestaurant(app);
 RestaurantEndpoints.getMyRestaurant(app);
 RestaurantEndpoints.getRestaurantCategories(app);
+
+ItemEndpoints.createItem(app);
+ItemEndpoints.updateItem(app);
+ItemEndpoints.deleteItem(app);
+ItemEndpoints.getMyItems(app);
+ItemEndpoints.getRestaurantItems(app);
+ItemEndpoints.getItem(app);
 
 // Handling Errors and 404
 app.use(function (req, res) {
