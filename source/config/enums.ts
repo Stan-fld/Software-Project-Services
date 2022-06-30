@@ -11,26 +11,12 @@ export const roles = {
     }
 }
 
-export const restauStatus = {
-    opened: 'opened',
-    pending: 'pending',
-    closed: 'closed',
+export const orderStatus = {
+    pending: 0,
+    inProgress: 1,
+    inDelivery: 2,
+    delivered: 3,
     list: function () {
-        return [this.open, this.pending, this.closed];
-    }
-}
-
-export const restauCategories = {
-    american: 'american',
-    burger: 'burger',
-    french: 'french',
-    halal: 'halal',
-    italian: 'italian',
-    japanese: 'japanese',
-    pizza: 'pizza',
-    sushi: 'sushi',
-    thai: 'thai',
-    list: function (): string[] {
-        return [this.american, this.burger, this.french, this.halal, this.italian, this.japanese, this.pizza, this.sushi, this.thai];
+        return [this.pending, this.inProgress, this.inDelivery, this.delivered];
     }
 }

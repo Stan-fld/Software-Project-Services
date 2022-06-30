@@ -1,5 +1,4 @@
 import Restaurant from "../../db/restaurant.model";
-import {restauStatus} from "../../config/enums";
 
 export class RestaurantService {
 
@@ -17,27 +16,5 @@ export class RestaurantService {
      */
     static findWithId(restaurantId: string) {
         return Restaurant.findOne({_id: restaurantId}).populate('restaurantCategory');
-    }
-
-    /**
-     * Service to save a restaurant.
-     * @param restaurant
-     */
-    static saveRestaurant(restaurant: Restaurant): Promise<Restaurant> {
-        return restaurant.save();
-    }
-
-    /**
-     * Service to find all restaurants opened.
-     */
-    static findWithStatus(status: string = restauStatus.opened) {
-        return Restaurant.find({status: status}).populate('restaurantCategory');
-    }
-
-    /**
-     * Service to find all restaurants.
-     */
-    static findAll() {
-        return Restaurant.find({}).populate('restaurantCategory');
     }
 }

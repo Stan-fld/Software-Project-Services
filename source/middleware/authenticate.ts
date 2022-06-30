@@ -23,7 +23,7 @@ export async function authenticateTransaction(req: any, res, next: any) {
         next();
     } catch (e) {
         if (!e.response) {
-            return res.status(500).send({message: 'Internal server restaurant error'});
+            return res.status(500).send({message: 'Internal server order error'});
         }
 
         return res.status(e.response.status).send(e.response.data);

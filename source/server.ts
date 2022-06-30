@@ -3,8 +3,7 @@ import express, {Express} from "express";
 import methodOverride from "method-override";
 import {cors} from "./middleware/cors"
 import './db/setup/db-mongoose-setup';
-import RestaurantEndpoints from "./server/enpoints/restaurant/restaurant-endpoints";
-import ItemEndpoints from "./server/enpoints/item/item-endpoints";
+import OrderEndpoints from "./server/enpoints/order/order-endpoints";
 
 
 const app: Express = express();
@@ -13,22 +12,15 @@ app.use(cors);
 app.use(express.json({limit: '2mb'}));
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-RestaurantEndpoints.createRestaurant(app);
-RestaurantEndpoints.updateRestaurant(app);
-RestaurantEndpoints.closeMyRestaurant(app);
-RestaurantEndpoints.openRestaurant(app);
-RestaurantEndpoints.getRestaurantsOpened(app);
-RestaurantEndpoints.getRestaurants(app);
-RestaurantEndpoints.getRestaurant(app);
-RestaurantEndpoints.getMyRestaurant(app);
-RestaurantEndpoints.getRestaurantCategories(app);
-
-ItemEndpoints.createItem(app);
-ItemEndpoints.updateItem(app);
-ItemEndpoints.deleteItem(app);
-ItemEndpoints.getMyItems(app);
-ItemEndpoints.getRestaurantItems(app);
-ItemEndpoints.getItem(app);
+OrderEndpoints.createOrder(app);
+OrderEndpoints.restaurantAcceptOrder(app);
+OrderEndpoints.delivererAcceptOrder(app);
+OrderEndpoints.orderDelivered(app);
+OrderEndpoints.getRestaurantOrders(app);
+OrderEndpoints.getRestaurantPendingOrders(app);
+OrderEndpoints.getDelivererInProgressOrders(app);
+OrderEndpoints.getDelivererOrders(app);
+OrderEndpoints.getClientOrders(app);
 
 // Handling Errors and 404
 app.use(function (req, res) {
