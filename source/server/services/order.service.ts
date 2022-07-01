@@ -62,8 +62,8 @@ export class OrderService {
         return Order.find({clientId: clientId}).populate(['items']);
     }
 
-    static findOneWithClientIdAndPopulate(clientId: string) {
-        return Order.findOne({clientId: clientId}).populate(['items']);
+    static findOneWithClientIdAndI(clientId: string, orderId: string) {
+        return Order.findOne({clientId: clientId, _id: orderId}).populate(['items']);
     }
 
     /**

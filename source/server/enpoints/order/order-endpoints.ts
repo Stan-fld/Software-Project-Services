@@ -157,7 +157,7 @@ export default class OrderEndpoints {
 
             app.get('/orders/client/order/:id', authenticateTransaction, async (req: any, res) => {
 
-            const response = await OrderController.getClientOrder(req.user);
+            const response = await OrderController.getClientOrder(req.user, req.params.id);
 
             res.status(response.code).send(response.data);
 

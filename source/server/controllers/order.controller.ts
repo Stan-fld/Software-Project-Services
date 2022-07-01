@@ -10,6 +10,7 @@ import {DelivererService} from "../services/deliverer.service";
 import Deliverer from "../../db/deliverer.model";
 import Item from "../../db/item.model";
 import {ItemService} from "../services/item.service";
+import mongoose from "mongoose";
 
 
 export class OrderController {
@@ -246,10 +247,14 @@ export class OrderController {
     /**
      * Controller to get an order for a client
      * @param user
+     * @param orderId
      */
-    static async getClientOrder(user: User) {
+    static async getClientOrder(user: User, orderId: string) {
         try {
-            const order: Order = await OrderService.findOneWithClientIdAndPopulate(user.id);
+            if (!orderId || !mongoose.isValidObjectId(orderId)) {
+                return createError('InvalidOrderId', 'Invalid order id', 400);
+            }
+            const order: Order = await OrderService.findOneWithClientIdAndI(user.id, orderId);
 
             if (!order) {
                 return createError('CannotFindOrder', 'Cannot find your order', 404);
