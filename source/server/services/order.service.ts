@@ -59,7 +59,11 @@ export class OrderService {
      * @param clientId
      */
     static findWithClientId(clientId: string) {
-        return Order.find({clientId: clientId});
+        return Order.find({clientId: clientId}).populate(['items']);
+    }
+
+    static findOneWithClientIdAndPopulate(clientId: string) {
+        return Order.findOne({clientId: clientId}).populate(['items']);
     }
 
     /**

@@ -148,4 +148,19 @@ export default class OrderEndpoints {
 
         });
     }
+
+    /**
+     * Endpoint to get a client order
+     * @param app
+     */
+    static getClientOrder(app: Express) {
+
+            app.get('/orders/client/order/:id', authenticateTransaction, async (req: any, res) => {
+
+            const response = await OrderController.getClientOrder(req.user);
+
+            res.status(response.code).send(response.data);
+
+        });
+    }
 }

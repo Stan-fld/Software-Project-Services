@@ -242,5 +242,24 @@ export class OrderController {
             return mongooseErrors(e);
         }
     }
+
+    /**
+     * Controller to get an order for a client
+     * @param user
+     */
+    static async getClientOrder(user: User) {
+        try {
+            const order: Order = await OrderService.findOneWithClientIdAndPopulate(user.id);
+
+            if (!order) {
+                return createError('CannotFindOrder', 'Cannot find your order', 404);
+            }
+
+            return {data: order, code: 200};
+
+        } catch (e) {
+            return mongooseErrors(e);
+        }
+    }
 }
 

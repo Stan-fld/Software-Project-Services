@@ -21,6 +21,7 @@ OrderEndpoints.getRestaurantPendingOrders(app);
 OrderEndpoints.getDelivererInProgressOrders(app);
 OrderEndpoints.getDelivererOrders(app);
 OrderEndpoints.getClientOrders(app);
+OrderEndpoints.getClientOrder(app);
 
 // Handling Errors and 404
 app.use(function (req, res) {
