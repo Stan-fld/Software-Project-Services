@@ -1,2 +1,2 @@
-# Software-Project-User-Service
-Software Project Node.js TypeScript User Service
+# Software-Project-Restaurant-Service
+Software Project Node.js TypeScript Restaurant Service
