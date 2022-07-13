@@ -1,2 +1,2 @@
-# Software-Project-API-Services
-Software Project Node.js TypeScript API Services
+# Software-Project-User-Services
+Software Project Node.js TypeScript API User Service
